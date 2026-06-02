@@ -1,0 +1,4 @@
+# Optional: cover letter PDF generation only
+reportlab>=4.0.0
+
+# find_jobs.py uses stdlib only (urllib, json, csv)

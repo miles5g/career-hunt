@@ -1,0 +1,27 @@
+# Private career data (keep local only)
+context/USER_CONTEXT.md
+tracking/applications.csv
+tracking/simplify_*.csv
+tracking/simplify_import.csv
+tracking/simplify*.ldb
+tracking/roles/
+
+# Resume variants (local only; use RESUME_VARIANTS.md for structure)
+resumes/Miles-Johnson-*.md
+
+# Generated cover letters / PDFs
+*.pdf
+
+# Nested git clone
+miles5g-profile/
+
+# Python
+__pycache__/
+*.pyc
+.Python
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.env
+.env.*
