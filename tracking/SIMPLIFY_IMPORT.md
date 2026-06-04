@@ -19,11 +19,29 @@ Imported from `Downloads/Simplify_Tracked_Jobs_2026-05-20.csv`:
 .\scripts\import_simplify_csv.ps1 -InputCsv "$env:USERPROFILE\Downloads\Simplify_Tracked_Jobs_2026-05-20.csv"
 ```
 
-## Best path for future exports
+## Best path (merge, does not wipe your tracker)
 
-1. Simplify dashboard → Export CSV  
-2. Save to Downloads with date in filename  
-3. Re-run `import_simplify_csv.ps1`
+1. [Simplify dashboard](https://simplify.jobs/dashboard) → **Export** tracked jobs CSV  
+2. File lands in `Downloads` as `Simplify_Tracked_Jobs_*.csv`  
+3. Run:
+
+```powershell
+python scripts/sync_simplify.py
+```
+
+This **merges** new rows into `tracking/applications.csv` and adds **applied** jobs to `tracking/agent_suggested.json` so the ATS **fresh list** stops repeating them.
+
+Options:
+
+```powershell
+python scripts/sync_simplify.py --since-days 14
+python scripts/sync_simplify.py --file "C:\path\to\export.csv"
+python scripts/sync_simplify.py --dry-run
+```
+
+## Legacy full replace (avoid)
+
+`import_simplify_csv.ps1` **overwrites** `applications.csv`. Use `sync_simplify.py` instead unless you want a full replace from one export.
 
 ## Automated import (companies only)
 

@@ -14,7 +14,8 @@ Direct-to-careers-page job hunting that skips LinkedIn Easy Apply and the recrui
 ## How to run it (just ask the agent)
 
 Say any of:
-- **"run the job hunt"** or **"fresh list"** → actionable scan; **hides only postings** already in `tracking/agent_suggested.json` (roles the agent recommended before). **All job boards stay polled** so new listings at Affirm, Ramp, etc. still surface.
+- **"run the job hunt"** or **"fresh list"** → actionable scan (target **10** roles); **hides only postings** in `tracking/agent_suggested.json` (log with `log_agent_suggestion.py` after you apply). **All boards stay polled.**
+- **Simplify sync:** export CSV from dashboard → `python scripts/sync_simplify.py` (see `tracking/SIMPLIFY_IMPORT.md`). No live API; ~weekly export is the practical "sync."
 - After you apply to a **pasted** role the agent scored (e.g. Lob on Wellfound), agent logs it in `agent_suggested.json` (or run `python scripts/log_agent_suggestion.py --company Lob --title "..."`).
 - **"run the job hunt, fresh only"** → `--days 7`
 - **"run high odds only"** → `--tier high_odds`
@@ -61,5 +62,5 @@ Letters are written from ATS job text when the API returns enough detail. If a r
 
 1. **Funding triggers**: companies that just raised Series A/B hire their first BizOps/Ops person within months. Add them here when you spot a raise.
 2. **First-ops-hire targeting**: 15-80 person companies, well funded, zero existing ops titles on LinkedIn. They need a generalist builder now.
-3. **Referral layer**: for any APPLY role, check the LinkedIn "X alumni work here" count (UCSB / Penn State) and send a short note before applying. Warm intro beats cold apply ~10x.
+3. **Referral layer**: every role in `job_hunt_apply_pack.md` includes LinkedIn alumni + recruiter copy (see `strategy/LINKEDIN_OUTREACH.md`). Send alumni note before you apply.
 4. **Founder direct outreach** (sub-50-person companies): DM the founder/COO with one concrete automation you'd build in week one. Skips the queue.

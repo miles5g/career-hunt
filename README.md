@@ -39,6 +39,26 @@ Polls **Greenhouse / Lever / Ashby** boards from `scripts/target_companies.json`
 
 **Filters:** US remote or LA-area hybrid only; no manager/director stretch; expanded company list (40+ ATS boards). See `strategy/COMPANY_TRACKER.md`.
 
+## LinkedIn outreach (alumni + recruiter backup)
+
+See [`strategy/LINKEDIN_OUTREACH.md`](strategy/LINKEDIN_OUTREACH.md). Generates UCSB/Penn State alumni notes and a recruiter fallback.
+
+```powershell
+python scripts/find_jobs.py --days 45 --min-score 16 --top 6
+```
+
+Each role in `tracking/job_hunt_apply_pack.md` includes a **cover letter blurb** and **LinkedIn alumni + recruiter** messages. Standalone file: `python scripts/gen_linkedin_outreach.py --company Rain --title "..."`.
+
+## Simplify sync (applied jobs → fresh list)
+
+Simplify has **no public API**. After you apply via Simplify, export CSV from the [dashboard](https://simplify.jobs/dashboard), then:
+
+```powershell
+python scripts/sync_simplify.py
+```
+
+Merges into `applications.csv` and updates `agent_suggested.json` so the job hunt poller hides roles you already applied to. See `tracking/SIMPLIFY_IMPORT.md`.
+
 ## Other scripts
 
 ```powershell
