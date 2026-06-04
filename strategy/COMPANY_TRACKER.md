@@ -4,7 +4,7 @@ Direct-to-careers-page job hunting that skips LinkedIn Easy Apply and the recrui
 
 ## How it works
 
-1. `scripts/target_companies.json` is the company list (source of truth), split into tiers:
+1. `scripts/target_companies.json` is the company list (source of truth, **~75 ATS boards**), split into tiers:
    - `dream_gaming`: Riot, Discord, Roblox, Scopely (+ manual: Xbox, EA, Rockstar, Activision, Epic, PlayStation)
    - `dream_tech`: Anthropic, Scale AI, Databricks, Figma, Airbnb, Coinbase, Robinhood, Affirm, Dropbox, Pinterest, Netflix, NVIDIA
    - `high_odds`: Brex, Plaid, Gusto, Samsara, SoFi, Chime, Mercury, Vanta, Vercel
@@ -14,7 +14,8 @@ Direct-to-careers-page job hunting that skips LinkedIn Easy Apply and the recrui
 ## How to run it (just ask the agent)
 
 Say any of:
-- **"run the job hunt"** → actionable scan, top 6 (one per company), cover letters in `tracking/job_hunt_apply_pack.md`
+- **"run the job hunt"** or **"fresh list"** → actionable scan; **hides only postings** already in `tracking/agent_suggested.json` (roles the agent recommended before). **All job boards stay polled** so new listings at Affirm, Ramp, etc. still surface.
+- After you apply to a **pasted** role the agent scored (e.g. Lob on Wellfound), agent logs it in `agent_suggested.json` (or run `python scripts/log_agent_suggestion.py --company Lob --title "..."`).
 - **"run the job hunt, fresh only"** → `--days 7`
 - **"run high odds only"** → `--tier high_odds`
 - **"run the gaming scan"** → `--tier dream_gaming`

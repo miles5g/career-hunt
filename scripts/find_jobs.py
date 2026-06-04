@@ -37,6 +37,7 @@ CONFIG_PATH = Path(__file__).resolve().parent / "target_companies.json"
 OUT_CSV = ROOT / "tracking" / "job_hunt_results.csv"
 OUT_MD = ROOT / "tracking" / "job_hunt_results.md"
 OUT_APPLY = ROOT / "tracking" / "job_hunt_apply_pack.md"
+AGENT_SUGGESTED = ROOT / "tracking" / "agent_suggested.json"
 
 # Actionable CSV: APPLY + high MAYBE. Apply pack: strong fits, min 10 when possible.
 MAYBE_MIN_SCORE = 19
@@ -240,13 +241,12 @@ DESC_GRIND = [
     "accounts receivable", "reconciliation only", "phone support",
 ]
 REMOTE_WORDS = ["remote", "anywhere", "distributed", "work from home"]
-# Miles: remote US only, OR hybrid in LA / Santa Monica westside (not SF/NYC 3x/week).
-LA_AREA = [
-    "santa monica", "los angeles", "west la", "west los angeles", "culver city",
-    "venice", "marina del rey", "el segundo", "playa vista", "beverly hills",
-    "century city", "inglewood", "universal city", "burbank", "glendale",
-    "pasadena", "torrance", "long beach", "hawthorne", "dtla", "downtown la",
-    "greater los angeles", "la metro", "l.a.",
+# Miles: US-remote only, OR hybrid with office in Santa Monica (not Hawthorne, DTLA, SF, etc.).
+SM_HYBRID = ["santa monica"]
+# City in loc string without remote → reject (SpaceX Hawthorne, Bastrop, etc.)
+ONSITE_CITY_MARKERS = [
+    "hawthorne", "bastrop", "redmond", "woodinville", "starbase", "lompoc",
+    "cape canaveral", "mcgregor", "chicago", "denver", "miami", "atlanta",
 ]
 NON_LA_OFFICE = [
     "san francisco", "menlo park", "palo alto", "mountain view", "sunnyvale",
@@ -455,26 +455,29 @@ def _foreign_country_in_loc(loc: str) -> bool:
         "brazil", "mexico", "singapore", "japan", "china", "ireland", "australia",
         "canada", "serbia", "dublin", "warsaw", "berlin", "toronto", "london",
         "bangalore", "mumbai", "bengaluru", "sydney", "melbourne",
+        "estonia", "colombia", "philippines", "vietnam", "argentina", "portugal",
+        "netherlands", "sweden", "norway", "denmark", "finland", "switzerland",
+        "belgium", "czech", "romania", "hungary", "israel", "taiwan", "korea",
+        "new zealand", "south africa", "nigeria", "egypt", "hungary", "latvia",
+        "lithuania", "croatia", "greece", "italy", "austria",
     ]
     return any(m in low for m in foreign_markers)
 
 
 def _has_us_remote_signal(loc: str, blob: str) -> bool:
-    """Remote must be US-based, not 'Germany - Remote' or similar."""
+    """Remote must be US-based, not 'Remote - Estonia' or 'Germany - Remote'."""
     low = loc.lower()
-    if _foreign_country_in_loc(loc):
-        us_remote_tags = (
-            "remote us", "us-remote", "remote - us", "remote, us", "u.s. remote",
-            "united states (remote)", "remote u.s", "remote united states",
-        )
-        if not any(t in blob for t in us_remote_tags):
-            return False
-    if any(w in low for w in REMOTE_WORDS):
-        return True
     us_remote_tags = (
         "remote us", "us-remote", "remote - us", "remote, us", "u.s. remote",
         "united states (remote)", "remote u.s", "remote united states",
+        "u.s. remote", "remote in the united states", "remote in us",
     )
+    if _foreign_country_in_loc(loc):
+        if any(t in low for t in us_remote_tags) or any(t in blob for t in us_remote_tags):
+            return True
+        return False
+    if any(w in low for w in REMOTE_WORDS):
+        return True
     if any(t in blob for t in us_remote_tags):
         return True
     if "remote" in blob and _blob_has_us(blob) and not _foreign_country_in_loc(loc):
@@ -483,12 +486,13 @@ def _has_us_remote_signal(loc: str, blob: str) -> bool:
 
 
 def location_classify(location: str, description: str = "") -> str:
-    """Return 'remote', 'hybrid_la', or 'reject'.
+    """Return 'remote', 'hybrid_sm', or 'reject'.
 
-    Hard rule: US-remote OK. Hybrid only if LA / Santa Monica area and not heavy RTO.
+    Hard rule: US-remote OK. Hybrid only if Santa Monica (not broader LA / Hawthorne).
     No SF/NYC/Seattle hybrid, no 3+ days in-office, no non-US-only posts.
     """
     loc = (location or "").strip()
+    low = loc.lower()
     blob = f"{loc} {(description or '')[:8000]}".lower()
 
     if HEAVY_RTO_RE.search(blob):
@@ -507,45 +511,48 @@ def location_classify(location: str, description: str = "") -> str:
     if _foreign_country_in_loc(loc) and not _has_us_remote_signal(loc, blob):
         return "reject"
 
-    if "canada" in loc.lower() and "united states" not in blob and "remote us" not in blob:
+    if "canada" in low and "united states" not in blob and "remote us" not in blob:
         return "reject"
 
     has_remote = _has_us_remote_signal(loc, blob)
-    has_hybrid = "hybrid" in blob
-    in_la = any(a in blob for a in LA_AREA)
+    in_sm = any(s in low for s in SM_HYBRID) or (
+        any(s in blob for s in SM_HYBRID) and ("hybrid" in blob or "santa monica" in low)
+    )
     non_la_hit = [c for c in NON_LA_OFFICE if c in blob]
+    onsite_in_loc = [c for c in ONSITE_CITY_MARKERS + NON_LA_OFFICE if c in low]
 
-    # Non-LA office/hybrid without US-remote
+    # Listed office city with no US-remote signal (e.g. Hawthorne CA, Bastrop TX)
+    if onsite_in_loc and not has_remote:
+        return "reject"
+
+    # Non-SM office/hybrid without US-remote
     if non_la_hit and not has_remote:
-        if has_hybrid or "on-site" in blob or "on site" in blob or "in-office" in blob:
+        if "hybrid" in blob:
             return "reject"
-        if any(c in loc.lower() for c in NON_LA_OFFICE):
+        if any(c in low for c in NON_LA_OFFICE):
             return "reject"
 
     if has_remote:
-        # Remote bait + required SF/NYC office cadence
-        if non_la_hit and has_hybrid and not in_la:
+        # Remote bait + required SF/NYC office cadence (not Santa Monica)
+        if non_la_hit and "hybrid" in blob and not in_sm:
             return "reject"
         return "remote"
 
-    if in_la and (has_hybrid or bool(loc)):
-        if any(c in loc.lower() for c in NON_LA_OFFICE) and not in_la:
-            return "reject"
-        return "hybrid_la"
+    if in_sm and ("hybrid" in blob or "santa monica" in low):
+        return "hybrid_sm"
 
-    # US city/state listed without remote or LA hybrid (e.g. PA deployment sites)
-    if US_STATE_RE.search(loc) and not has_remote and not in_la:
-        if "hybrid" not in blob and "remote" not in loc.lower():
-            return "reject"
+    # US city/state listed without remote or Santa Monica
+    if US_STATE_RE.search(loc) and not has_remote and not in_sm:
+        return "reject"
 
-    if _blob_has_us(blob) and not has_remote and not in_la:
+    if _blob_has_us(blob) and not has_remote and not in_sm:
         return "reject"
 
     return "reject"
 
 
 def location_ok(location: str, description: str = "") -> bool:
-    return location_classify(location, description) in ("remote", "hybrid_la")
+    return location_classify(location, description) in ("remote", "hybrid_sm")
 
 
 def score_job(title: str, description: str, location: str) -> tuple[int, str]:
@@ -574,7 +581,7 @@ def score_job(title: str, description: str, location: str) -> tuple[int, str]:
     loc_type = location_classify(location, description)
     if loc_type == "remote":
         culture = 5
-    elif loc_type == "hybrid_la":
+    elif loc_type == "hybrid_sm":
         culture = 4
     else:
         culture = 1
@@ -630,6 +637,78 @@ def score_job(title: str, description: str, location: str) -> tuple[int, str]:
         else:
             rec = "SKIP"
     return total, rec
+
+
+def norm_company(name: str) -> str:
+    return re.sub(r"\s+", " ", (name or "").strip().lower())
+
+
+def norm_title(title: str) -> str:
+    return re.sub(r"\s+", " ", (title or "").strip().lower())
+
+
+def norm_url(url: str) -> str:
+    u = (url or "").strip().lower().rstrip("/")
+    u = re.sub(r"\?.*$", "", u)
+    u = re.sub(r"#.*$", "", u)
+    return u
+
+
+def load_agent_suggestions() -> list[dict]:
+    if not AGENT_SUGGESTED.exists():
+        return []
+    data = json.loads(AGENT_SUGGESTED.read_text(encoding="utf-8"))
+    return list(data.get("suggestions") or [])
+
+
+def role_suggestion_key(company: str, title: str, url: str = "") -> tuple[str, str, str]:
+    return (norm_company(company), norm_title(title), norm_url(url))
+
+
+def is_previously_suggested(role: dict, suggestions: list[dict]) -> bool:
+    co, title, url = role_suggestion_key(role["company"], role["title"], role.get("url", ""))
+    for s in suggestions:
+        s_co, s_title, s_url = role_suggestion_key(
+            s.get("company", ""), s.get("title", ""), s.get("url", ""),
+        )
+        if url and s_url and url == s_url:
+            return True
+        if co == s_co and title == s_title:
+            return True
+    return False
+
+
+def record_agent_suggestions(roles: list[dict]) -> None:
+    """Append apply-pack roles so the next run hides only these postings, not whole boards."""
+    existing = load_agent_suggestions()
+    keys = {
+        role_suggestion_key(s.get("company", ""), s.get("title", ""), s.get("url", ""))
+        for s in existing
+    }
+    today = datetime.now().strftime("%Y-%m-%d")
+    for r in roles:
+        k = role_suggestion_key(r["company"], r["title"], r.get("url", ""))
+        if k in keys:
+            continue
+        existing.append({
+            "company": r["company"],
+            "title": r["title"],
+            "url": r.get("url", ""),
+            "suggested_at": today,
+        })
+        keys.add(k)
+    AGENT_SUGGESTED.parent.mkdir(parents=True, exist_ok=True)
+    AGENT_SUGGESTED.write_text(
+        json.dumps(
+            {
+                "_comment": "Agent-recommended roles only. Boards stay polled for new postings.",
+                "suggestions": existing,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def is_actionable(rec: str, score: int) -> bool:
@@ -715,6 +794,16 @@ def run(days: int, min_score: int, tier_filter: str | None, top_n: int) -> list[
     results.sort(key=lambda r: (r["score"], -(r["posted_days"] if isinstance(r["posted_days"], int) else 999)), reverse=True)
 
     actionable = [r for r in results if is_actionable(r["rec"], r["score"])]
+    prior_suggestions = load_agent_suggestions()
+    already_suggested: list[dict] = []
+    if prior_suggestions:
+        still_open = []
+        for r in actionable:
+            if is_previously_suggested(r, prior_suggestions):
+                already_suggested.append(r)
+            else:
+                still_open.append(r)
+        actionable = still_open
 
     # One best role per company in the apply pack (prefer APPLY over MAYBE at same score).
     def pick_key(r: dict) -> tuple:
@@ -760,14 +849,21 @@ def run(days: int, min_score: int, tier_filter: str | None, top_n: int) -> list[
     write_outputs(
         results, actionable_unique, top, skipped, failed, no_match,
         config.get("manual", []), days, min_score, tier_filter,
+        already_suggested,
     )
-    print_console(top, failed, config.get("manual", []), tier_filter, len(top), len(results))
+    record_agent_suggestions(top)
+    print_console(
+        top, failed, config.get("manual", []), tier_filter,
+        len(actionable_unique), len(results), already_suggested,
+    )
     return top
 
 
 def write_outputs(
     results, actionable_unique, top, skipped, failed, no_match, manual, days, min_score, tier_filter,
+    already_suggested: list[dict] | None = None,
 ):
+    already_suggested = already_suggested or []
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with OUT_CSV.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -782,11 +878,23 @@ def write_outputs(
         "",
         f"Filters: posted <= {days} days, score >= {min_score}. "
         f"**Apply pack:** score >= {APPLY_PACK_MIN_SCORE} (APPLY) or MAYBE >= {MAYBE_MIN_SCORE}, "
-        f"remote US or LA hybrid, no director/manager/lead stretch / 5+ yr JD / CS-IC pivot.{tier_note}",
+        f"remote US or Santa Monica hybrid only, no director/manager/lead stretch / 5+ yr JD / CS-IC pivot.{tier_note}",
         "",
-        f"**{len(top)} roles to apply** (from {len(actionable_unique)} actionable, one per company).",
+        f"**{len(top)} roles to apply** (from {len(actionable_unique)} actionable; max {APPLY_PACK_MAX_PER_COMPANY} per company).",
         "",
     ]
+    if already_suggested:
+        lines += [
+            f"**Previously suggested:** {len(already_suggested)} posting(s) hidden "
+            f"(see `agent_suggested.json`). Boards still scanned for new roles.",
+            "",
+        ]
+        lines += ["## Previously suggested (same posting, excluded from pack)", ""]
+        for r in sorted(already_suggested, key=lambda x: -x["score"])[:20]:
+            lines.append(f"- **{r['company']}** — {r['title']} ({r['score']}/25)")
+        if len(already_suggested) > 20:
+            lines.append(f"- …and {len(already_suggested) - 20} more")
+        lines.append("")
     if skipped:
         lines += ["## Skipped (stretch / borderline)", ""]
         for r in skipped:
@@ -823,11 +931,16 @@ def write_outputs(
     OUT_MD.write_text("\n".join(lines), encoding="utf-8")
 
     # Apply pack: top roles with JD excerpt for agent cover-letter pass
+    skip_note = ""
+    if already_suggested:
+        n = len({(r["company"], r["title"]) for r in already_suggested})
+        skip_note = f"**New since last suggestions:** {n} prior posting(s) hidden. "
     pack = [
         f"# Apply pack ({datetime.now().strftime('%Y-%m-%d %H:%M')})",
         "",
-        "APPLY-tier only, score >= 20, no obvious stretches. Remote US or LA hybrid. "
-        "Paste JD in chat if `[needs full JD]`.",
+        skip_note
+        + "APPLY-tier (score >= 18) or strong MAYBE (>= 19). Remote US or Santa Monica only. "
+        "Say **fresh list** to refresh. Paste JD in chat if `[needs full JD]`.",
         "",
     ]
     for i, r in enumerate(top, 1):
@@ -860,12 +973,38 @@ def write_outputs(
             "*Agent: write tailored blurb here after scan. Short text-box (~150 words) unless JD asks for more.*",
             "",
         ]
+    if not top:
+        pack += [
+            "",
+            "_No new postings in your lane (remote US or Santa Monica) right now. "
+            "Boards are still scanned. Paste Wellfound/LinkedIn roles or check manual watchlist in "
+            f"`{OUT_MD.name}`._",
+            "",
+        ]
     OUT_APPLY.write_text("\n".join(pack), encoding="utf-8")
 
 
-def print_console(top, failed, manual, tier_filter, actionable_count, total_count):
-    print(f"\n=== JOB HUNT: {len(top)} top roles (of {actionable_count} actionable, {total_count} raw) "
-          + (f"tier: {tier_filter} " if tier_filter else "") + "===\n")
+def print_console(
+    top, failed, manual, tier_filter, actionable_count, total_count,
+    already_suggested=None,
+):
+    already_suggested = already_suggested or []
+    hide_note = ""
+    if already_suggested:
+        hide_note = f" · hid {len(already_suggested)} prior agent suggestions"
+    print(
+        f"\n=== JOB HUNT: {len(top)} top roles (of {actionable_count} actionable, "
+        f"{total_count} raw){hide_note} "
+        + (f"tier: {tier_filter} " if tier_filter else "")
+        + "===\n"
+    )
+    if already_suggested:
+        print("--- Hidden (agent suggested before) ---")
+        for r in sorted(already_suggested, key=lambda x: -x["score"])[:10]:
+            print(f"    {r['company']} — {r['title']} ({r['score']}/25)")
+        if len(already_suggested) > 10:
+            print(f"    ... +{len(already_suggested) - 10} more")
+        print()
     for r in top:
         posted = f"{r['posted_days']}d" if r["posted_days"] != "" else "?"
         print(f"[{r['score']}/25 {r['rec']}] {r['company']} - {r['title']} "

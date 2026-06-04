@@ -29,7 +29,7 @@ Score **before** applying. Only apply if **total ≥ 16** (avg 4+) or any single
 | Score | Criteria |
 |-------|----------|
 | 5 | **US remote** |
-| 4 | **LA / Santa Monica hybrid**, 1–2 days in-office max |
+| 4 | **Santa Monica hybrid** only, 1–2 days in-office max (not Hawthorne, DTLA, SF, NYC) |
 | 3 | Unclear RTO (treat as skip until clarified) |
 | 2 | Hybrid outside LA (SF, NYC, etc.) or 3+ days office |
 | 1 | Toxic signals / call center pace / 5-day RTO |

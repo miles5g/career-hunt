@@ -1,0 +1,3 @@
+# Deprecated — use tracking/agent_suggested.json instead.
+# Only roles the agent already recommended are hidden from the apply pack.
+# Job boards are always polled; new postings at the same company still surface.

@@ -1,0 +1,126 @@
+{
+  "_comment": "Agent-recommended roles only. Boards stay polled for new postings.",
+  "suggestions": [
+    {
+      "company": "Affirm",
+      "title": "Business Systems Analyst II",
+      "url": "https://job-boards.greenhouse.io/affirm/jobs/7721455003",
+      "suggested_at": "2026-06-02"
+    },
+    {
+      "company": "Paragon",
+      "title": "Operations Associate",
+      "url": "https://jobs.ashbyhq.com/paragon/66373519-40a0-41d0-816c-7927a0d8d3c9",
+      "suggested_at": "2026-06-02"
+    },
+    {
+      "company": "Ramp",
+      "title": "Product Operations Specialist | Accounting",
+      "url": "https://jobs.ashbyhq.com/ramp/b830aa03-c897-4f7d-80c1-047b529576e1",
+      "suggested_at": "2026-06-02"
+    },
+    {
+      "company": "Figma",
+      "title": "Business Systems Analyst",
+      "url": "https://boards.greenhouse.io/figma/jobs/5980306004",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Vanta",
+      "title": "Revenue Operations Analyst",
+      "url": "https://jobs.ashbyhq.com/vanta/cc1cbee0-06cf-4b63-b49c-945b1c12f657",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Harvey",
+      "title": "Technical User Operations Specialist",
+      "url": "https://jobs.ashbyhq.com/harvey/bb28fa88-ec30-4865-b24d-3e7f635feda4",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Samsara",
+      "title": "Senior Sales Operations Analyst",
+      "url": "https://www.samsara.com/company/careers/roles/7555223",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Samsara",
+      "title": "Sr. Analyst, Sales Operations",
+      "url": "https://www.samsara.com/company/careers/roles/7592390",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Lob",
+      "title": "Business Analyst, Operations",
+      "url": "",
+      "suggested_at": "2026-06-03",
+      "note": "Wellfound paste; user applied"
+    },
+    {
+      "company": "Webflow",
+      "title": "Senior Business Systems Analyst, Enterprise AI Operations",
+      "url": "https://job-boards.greenhouse.io/webflow/jobs/7921664",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Plaid",
+      "title": "Senior ACH Payment Operations Analyst",
+      "url": "https://jobs.ashbyhq.com/plaid/e006f8c3-aa91-4920-8053-4ae2b0a8cf3a",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Snowflake",
+      "title": "Sr. Sales Ops Analyst, Observability",
+      "url": "https://jobs.ashbyhq.com/snowflake/9b2c2bea-cab4-45da-99cc-9007c10a450f",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "Ramp",
+      "title": "AML Operations Analyst",
+      "url": "https://jobs.ashbyhq.com/ramp/16fb536d-fe10-4ea7-8956-d6d0cbddd6f5",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "SpaceX",
+      "title": "Business Operations Analyst (Starlink)",
+      "url": "https://boards.greenhouse.io/spacex/jobs/8511086002?gh_jid=8511086002",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "OpenAI",
+      "title": "Revenue Operations BP - Technical Success",
+      "url": "https://jobs.ashbyhq.com/openai/d929aa17-a339-4b96-b0ee-b0fc0ed9218c",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "ElevenLabs",
+      "title": "Impact Strategy & Operations",
+      "url": "https://jobs.ashbyhq.com/elevenlabs/3b517d94-7ecc-41ba-b49f-71c0671b27f7",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "OpenAI",
+      "title": "Revenue Strategy & Operations - Central Cadence",
+      "url": "https://jobs.ashbyhq.com/openai/cc843c56-fac0-4174-aad5-dee875f2d86f",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "ZipRecruiter",
+      "title": "Sr. Revenue Operations Business Analyst",
+      "url": "https://job-boards.greenhouse.io/ziprecruiter/jobs/7947899",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "SpaceX",
+      "title": "Onboarding Coordinator",
+      "url": "https://boards.greenhouse.io/spacex/jobs/8574412002?gh_jid=8574412002",
+      "suggested_at": "2026-06-03"
+    },
+    {
+      "company": "ZipRecruiter",
+      "title": "Publisher Operations Coordinator ",
+      "url": "https://job-boards.greenhouse.io/ziprecruiter/jobs/7974412",
+      "suggested_at": "2026-06-03"
+    }
+  ]
+}

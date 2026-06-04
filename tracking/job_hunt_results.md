@@ -1,41 +1,53 @@
-# Job hunt results (2026-06-02 01:17)
+# Job hunt results (2026-06-03 22:36)
 
-Filters: posted <= 45 days, score >= 16. **Apply pack:** score >= 18 (APPLY) or MAYBE >= 19, remote US or LA hybrid, no director/manager/lead stretch / 5+ yr JD / CS-IC pivot.
+Filters: posted <= 45 days, score >= 16. **Apply pack:** score >= 18 (APPLY) or MAYBE >= 19, remote US or Santa Monica hybrid only, no director/manager/lead stretch / 5+ yr JD / CS-IC pivot.
 
-**11 roles to apply** (from 19 actionable, one per company).
+**0 roles to apply** (from 14 actionable; max 2 per company).
+
+**Previously suggested:** 18 posting(s) hidden (see `agent_suggested.json`). Boards still scanned for new roles.
+
+## Previously suggested (same posting, excluded from pack)
+
+- **Webflow** — Senior Business Systems Analyst, Enterprise AI Operations (23/25)
+- **Affirm** — Business Systems Analyst II (23/25)
+- **Figma** — Business Systems Analyst  (23/25)
+- **Paragon** — Operations Associate (22/25)
+- **Ramp** — Product Operations Specialist | Accounting (22/25)
+- **Vanta** — Revenue Operations Analyst (22/25)
+- **Ramp** — AML Operations Analyst (22/25)
+- **Samsara** — Senior Sales Operations Analyst (21/25)
+- **OpenAI** — Revenue Operations BP - Technical Success (21/25)
+- **Plaid** — Senior ACH Payment Operations Analyst (21/25)
+- **Harvey** — Technical User Operations Specialist (21/25)
+- **ElevenLabs** — Impact Strategy & Operations (21/25)
+- **OpenAI** — Revenue Strategy & Operations - Central Cadence (21/25)
+- **Samsara** — Sr. Analyst, Sales Operations (20/25)
+- **ZipRecruiter** — Sr. Revenue Operations Business Analyst (20/25)
+- **Snowflake** — Sr. Sales Ops Analyst, Observability (20/25)
+- **SpaceX** — Onboarding Coordinator (19/25)
+- **ZipRecruiter** — Publisher Operations Coordinator  (18/25)
 
 ## Skipped (stretch / borderline)
 
-- **Instacart** — Implementation Specialist (Contractor) – Caper Deployments: contractor role
-- **Samsara** — Implementation Consultant: CS-heavy implementation (career pivot)
 - **Samsara** — Enterprise Implementation Consultant: CS-heavy implementation (career pivot)
 - **Samsara** — Enterprise Implementation Consultant - Public Sector: CS-heavy implementation (career pivot)
-- **Samsara** — Select Implementation Consultant: CS-heavy implementation (career pivot)
+- **Samsara** — Implementation Consultant: CS-heavy implementation (career pivot)
+- **Samsara** — Strategic Implementation Consultant - Public Sector: CS-heavy implementation (career pivot)
+- **Plaid** — Implementation Specialist – Enterprise: CS-heavy implementation (career pivot)
+- **Affirm** — Revenue Operations Lead: manager/director/lead title (not your lane)
 - **Pinterest** — Manager, Revenue Operations and Order Management: manager/director/lead title (not your lane)
-- **Notion** — Central GTM Strategy & Operations Manager: manager/director/lead title (not your lane)
-- **Paragon** — Revenue Operations Manager: manager/director/lead title (not your lane)
-- **Notion** — Customer Success Strategy & Operations Manager: manager/director/lead title (not your lane)
 - **Samsara** — Business Operations Manager, Technical Support Ops: manager/director/lead title (not your lane)
 - **Samsara** — GTM Business Operations Manager: manager/director/lead title (not your lane)
-- **Affirm** — Revenue Operations Lead: manager/director/lead title (not your lane)
+- **Notion** — Central GTM Strategy & Operations Manager: manager/director/lead title (not your lane)
+- **Paragon** — Revenue Operations Manager: manager/director/lead title (not your lane)
+- **ElevenLabs** — Lead Generation Strategy and Operations: manager/director/lead title (not your lane)
+- **Notion** — Customer Success Strategy & Operations Manager: manager/director/lead title (not your lane)
+- **Plaid** — GTM Operations Associate, Revenue: JD requires 5+ years
 - **Backblaze** — Product Operations Manager: manager/director/lead title (not your lane)
+- **PagerDuty** — Sales Strategy and Operations Manager: manager/director/lead title (not your lane)
+- **OpenAI** — Strategy & Operations Lead: manager/director/lead title (not your lane)
+- **Plaid** — Business Operations: JD requires 5+ years
 - **Scale AI** — AI Strategy Consultant, Frontier Tech: consultant title, weak ops fit
-
-| Score | Rec | Company | Title | Location | Posted | Link |
-|-------|-----|---------|-------|----------|--------|------|
-| 23/25 | APPLY | Affirm | Business Systems Analyst II | Remote US | 27d ago | [link](https://job-boards.greenhouse.io/affirm/jobs/7721455003) |
-| 23/25 | APPLY | Figma | Business Systems Analyst  | San Francisco, CA • New York, NY • United States | 38d ago | [link](https://boards.greenhouse.io/figma/jobs/5980306004?gh_jid=5980306004) |
-| 22/25 | APPLY | Paragon | Operations Associate | Los Angeles HQ (Remote) | 5d ago | [link](https://jobs.ashbyhq.com/paragon/66373519-40a0-41d0-816c-7927a0d8d3c9) |
-| 22/25 | APPLY | Ramp | Product Operations Specialist | Accounting | New York, NY (HQ) (Remote) | 10d ago | [link](https://jobs.ashbyhq.com/ramp/b830aa03-c897-4f7d-80c1-047b529576e1) |
-| 22/25 | APPLY | Vanta | Revenue Operations Analyst | Remote U.S. (Remote) | 10d ago | [link](https://jobs.ashbyhq.com/vanta/cc1cbee0-06cf-4b63-b49c-945b1c12f657) |
-| 22/25 | APPLY | Ramp | AML Operations Analyst | New York, NY (HQ) (Remote) | 18d ago | [link](https://jobs.ashbyhq.com/ramp/16fb536d-fe10-4ea7-8956-d6d0cbddd6f5) |
-| 21/25 | APPLY | Harvey | Technical User Operations Specialist | Remote (Remote) | 5d ago | [link](https://jobs.ashbyhq.com/harvey/bb28fa88-ec30-4865-b24d-3e7f635feda4) |
-| 21/25 | MAYBE | Samsara | Senior Sales Operations Analyst | Remote - US | 4d ago | [link](https://www.samsara.com/company/careers/roles/7555223?gh_jid=7555223) |
-| 20/25 | MAYBE | Samsara | Sr. Analyst, Sales Operations | Remote - US | 6d ago | [link](https://www.samsara.com/company/careers/roles/7592390?gh_jid=7592390) |
-| 20/25 | MAYBE | ZipRecruiter | Sr. Revenue Operations Business Analyst | New York, NY/Remote | 12d ago | [link](https://job-boards.greenhouse.io/ziprecruiter/jobs/7947899) |
-| 19/25 | APPLY | Stripe | Strategic Business Performance, Central Strategy & Operations | San Francisco, Seattle, Chicago, US-remote, New York | 12d ago | [link](https://stripe.com/jobs/search?gh_jid=5956528) |
-
-Cover letters + JD context: `job_hunt_apply_pack.md` (agent fills after scan).
 
 ## Manual watchlist (no API, check directly)
 
