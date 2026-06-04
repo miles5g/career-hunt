@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "onboarding_complete": true,
+  "identity": {
+    "name": "Your Name",
+    "email": "you@example.com",
+    "linkedin": "https://www.linkedin.com/in/you",
+    "github": "https://github.com/yourhandle"
+  },
+  "resume": {
+    "path": "resumes/Your-Resume.md",
+    "signals": {
+      "skills": ["python", "sql", "automation"],
+      "years_mentioned": 2,
+      "title_signals": ["business operations"]
+    }
+  },
+  "location": {
+    "remote_us": true,
+    "hybrid_cities": ["Santa Monica"],
+    "max_office_days_per_week": 2,
+    "exclude_cities": ["new york", "san francisco", "seattle"],
+    "notes": "Santa Monica, CA"
+  },
+  "compensation": {
+    "floor_usd": 100000,
+    "target_low_usd": 120000,
+    "target_high_usd": 150000
+  },
+  "interests": [
+    "Product Ops with automation mandate",
+    "RevOps / BizOps at B2B SaaS",
+    "Building internal tools with Python"
+  ],
+  "disinterests": [
+    "5 days in office",
+    "Pure accounting / AP-AR grind",
+    "SDR / AE sales"
+  ],
+  "personality": {
+    "builder_vs_operator": "A bug to automate away",
+    "ambiguity": "Energy — I like shaping the system",
+    "primary_school": "UCSB"
+  },
+  "role_preferences": {
+    "titles_love": ["product operations", "revops analyst"],
+    "titles_avoid": ["coordinator", "customer service"]
+  }
+}

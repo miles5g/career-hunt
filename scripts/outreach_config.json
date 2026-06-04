@@ -1,0 +1,23 @@
+{
+  "_comment": "Defaults for LinkedIn outreach. Override with --name or copy from context/USER_CONTEXT.md.",
+  "primary_school": "UCSB",
+  "sender_name": "Miles Johnson",
+  "linkedin_profile": "https://www.linkedin.com/in/milesjohnsondata",
+  "github": "https://github.com/miles5g",
+  "schools": [
+    {
+      "name": "UC Santa Barbara",
+      "short": "UCSB",
+      "linkedin_company_filter": "UC Santa Barbara"
+    },
+    {
+      "name": "Penn State",
+      "short": "Penn State",
+      "linkedin_company_filter": "Penn State University"
+    }
+  ],
+  "proof_line": "I build ops automation (VBA, Python, LLMs) and cut month-end reconciliation time by ~80% at a multi-entity firm.",
+  "target_blurb": "Product Ops, BizOps, RevOps, and business systems roles",
+  "alumni_ask": "Open to a quick chat about how your team works and who owns hiring for this lane?",
+  "recruiter_ask": "Who is the right person to speak with about this role, and is it fully remote US?"
+}

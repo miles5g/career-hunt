@@ -1,5 +1,6 @@
 # Private career data (keep local only)
 context/USER_CONTEXT.md
+context/job_hunt_profile.json
 tracking/applications.csv
 tracking/simplify_*.csv
 tracking/simplify_import.csv

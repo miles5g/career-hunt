@@ -1,0 +1,4 @@
+# Optional: PDF resume parsing during onboarding
+pypdf>=4.0
+# Optional: cover letter PDF export
+reportlab>=4.0

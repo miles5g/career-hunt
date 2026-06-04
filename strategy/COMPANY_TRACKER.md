@@ -11,10 +11,18 @@ Direct-to-careers-page job hunting that skips LinkedIn Easy Apply and the recrui
 2. `scripts/find_jobs.py` polls each company's ATS (Greenhouse / Lever / Ashby / SmartRecruiters public JSON APIs), filters to ops/bizops/implementation IC roles, **keeps only US-remote or LA-area hybrid** (drops SF/NYC hybrid, 3+ day RTO, non-LA onsite), scores each against the rubric, dedupes multi-location posts, and writes a ranked report.
 3. Output lands in `tracking/job_hunt_results.md` (readable) and `tracking/job_hunt_results.csv` (importable into `tracking/applications.csv`).
 
+## Setup (first time)
+
+```powershell
+python scripts/job_hunt.py onboard
+```
+
+Resume first, then location, salary, interests/disinterests, and work-style questions. Saves `context/job_hunt_profile.json` (local).
+
 ## How to run it (just ask the agent)
 
 Say any of:
-- **"run the job hunt"** or **"fresh list"** → actionable scan (target **10** roles); **hides only postings** in `tracking/agent_suggested.json` (log with `log_agent_suggestion.py` after you apply). **All boards stay polled.**
+- **"run the job hunt"** or **"fresh list"** → `python scripts/job_hunt.py run` (target **10** roles); ranks using your profile when present; **hides only postings** in `tracking/agent_suggested.json`. **All boards stay polled.**
 - **Simplify sync:** export CSV from dashboard → `python scripts/sync_simplify.py` (see `tracking/SIMPLIFY_IMPORT.md`). No live API; ~weekly export is the practical "sync."
 - After you apply to a **pasted** role the agent scored (e.g. Lob on Wellfound), agent logs it in `agent_suggested.json` (or run `python scripts/log_agent_suggestion.py --company Lob --title "..."`).
 - **"run the job hunt, fresh only"** → `--days 7`
@@ -62,5 +70,5 @@ Letters are written from ATS job text when the API returns enough detail. If a r
 
 1. **Funding triggers**: companies that just raised Series A/B hire their first BizOps/Ops person within months. Add them here when you spot a raise.
 2. **First-ops-hire targeting**: 15-80 person companies, well funded, zero existing ops titles on LinkedIn. They need a generalist builder now.
-3. **Referral layer**: every role in `job_hunt_apply_pack.md` includes LinkedIn alumni + recruiter copy (see `strategy/LINKEDIN_OUTREACH.md`). Send alumni note before you apply.
+3. **Referral layer**: each role in `job_hunt_apply_pack.md` has one **alumni connection note** (batch paste; `--school` or `primary_school` in `outreach_config.json`). Send before you apply.
 4. **Founder direct outreach** (sub-50-person companies): DM the founder/COO with one concrete automation you'd build in week one. Skips the queue.

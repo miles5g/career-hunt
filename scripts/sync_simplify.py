@@ -184,14 +184,13 @@ def append_agent_suggested(suggestions: list[dict], row: dict) -> bool:
     return True
 
 
-def main() -> None:
-    p = argparse.ArgumentParser(description="Merge Simplify CSV export into Career tracking.")
-    p.add_argument("--file", type=Path, default=None, help="Path to Simplify_Tracked_Jobs CSV")
-    p.add_argument("--since-days", type=int, default=0, help="Only import rows applied within N days")
-    p.add_argument("--dry-run", action="store_true", help="Print changes without writing")
-    args = p.parse_args()
-
-    export = find_latest_export(args.file)
+def run_sync(
+    *,
+    file: Path | None = None,
+    since_days: int = 0,
+    dry_run: bool = False,
+) -> None:
+    export = find_latest_export(file)
     if not export:
         print("No Simplify export found.")
         print(f"  Export from https://simplify.jobs/dashboard")
@@ -205,8 +204,8 @@ def main() -> None:
         simplify_rows = list(csv.DictReader(f))
 
     cutoff = None
-    if args.since_days > 0:
-        cutoff = datetime.now() - timedelta(days=args.since_days)
+    if since_days > 0:
+        cutoff = datetime.now() - timedelta(days=since_days)
 
     parsed: list[dict] = []
     for r in simplify_rows:
@@ -259,7 +258,7 @@ def main() -> None:
         if len(applied_new) > 15:
             print(f"  ... +{len(applied_new) - 15} more")
 
-    if args.dry_run:
+    if dry_run:
         print("\n(dry-run: no files written)")
         return
 
@@ -275,6 +274,15 @@ def main() -> None:
     print(f"\nWrote: {APPLICATIONS_CSV}")
     print(f"Archive: {archive}")
     print(f"Updated: {AGENT_SUGGESTED}")
+
+
+def main() -> None:
+    p = argparse.ArgumentParser(description="Merge Simplify CSV export into Career tracking.")
+    p.add_argument("--file", type=Path, default=None, help="Path to Simplify_Tracked_Jobs CSV")
+    p.add_argument("--since-days", type=int, default=0, help="Only import rows applied within N days")
+    p.add_argument("--dry-run", action="store_true", help="Print changes without writing")
+    args = p.parse_args()
+    run_sync(file=args.file, since_days=args.since_days, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":

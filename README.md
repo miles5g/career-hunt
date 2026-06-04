@@ -1,73 +1,67 @@
-# Career workspace
+# Career job hunt
 
-Miles Johnson — job search command center for Cursor.
+Command center for job search. **Start with onboarding once**, then run the poller.
 
-## Start here
-
-| File | Purpose |
-|------|---------|
-| [`context/USER_CONTEXT.md`](context/USER_CONTEXT.md) | Who you are, goals, blacklist — **AI reads first** |
-| [`strategy/JOB_SEARCH_STRATEGY.md`](strategy/JOB_SEARCH_STRATEGY.md) | Diagnosis + weekly workflow |
-| [`strategy/SAVED_FILTERS.md`](strategy/SAVED_FILTERS.md) | LinkedIn + Wellfound booleans |
-| [`wellfound/WELLFOUND_PREFERENCES_CHECKLIST.md`](wellfound/WELLFOUND_PREFERENCES_CHECKLIST.md) | Wellfound alert setup (WF-1/2/3) |
-| [`strategy/APPLICATION_SCORING.md`](strategy/APPLICATION_SCORING.md) | 1–5 rubric before applying |
-| [`tracking/applications.csv`](tracking/applications.csv) | Application log (84 Simplify jobs imported) |
-| [`tracking/SIMPLIFY_ANALYSIS.md`](tracking/SIMPLIFY_ANALYSIS.md) | Application history analysis & tier list |
-| [`CAREER_STATUS.md`](CAREER_STATUS.md) | What's done + next steps |
-| [`resumes/RESUME_VARIANTS.md`](resumes/RESUME_VARIANTS.md) | 2 PDFs → LinkedIn lanes + Wellfound saves |
-| [`plans/PHASE_1_PLAN.md`](plans/PHASE_1_PLAN.md) | Next 2 weeks checklist |
-| [`plans/AUTOMATION_ROADMAP.md`](plans/AUTOMATION_ROADMAP.md) | What to automate (and not) |
-
-## Cursor rules
-
-Project rules live in [`.cursor/rules/career-coach.mdc`](.cursor/rules/career-coach.mdc) — loaded automatically in this workspace.
-
-## Job hunt poller (company career sites)
-
-Polls **Greenhouse / Lever / Ashby** boards from `scripts/target_companies.json`, filters to your lane, and writes ranked results.
+## Quick start
 
 ```powershell
-# Windows (full path if `python` is not on PATH)
-& "$env:LOCALAPPDATA\Programs\Python\Python311\python.exe" scripts/find_jobs.py --days 30 --min-score 16 --top 12
+# 1) Build your profile (resume first, then interests, comp, location, personality)
+python scripts/job_hunt.py onboard
+
+# 2) Poll company career sites + ranked apply pack
+python scripts/job_hunt.py run
+
+# 3) After Simplify applies: export CSV from dashboard, then
+python scripts/job_hunt.py sync
 ```
 
-| Output | Purpose |
-|--------|---------|
-| `tracking/job_hunt_apply_pack.md` | Top roles to apply |
-| `tracking/job_hunt_results.md` | Full table + skipped list |
+In Cursor you can say **"run the job hunt"** or **"fresh list"** after onboarding.
+
+Optional PDF resumes: `pip install pypdf`
+
+## What onboarding does
+
+One question at a time (no multi-tab forms):
+
+1. Resume file or paste
+2. Contact links
+3. Location (remote US, hybrid cities, cities to skip)
+4. Salary floor and target range
+5. Detailed **interests** and **disinterests**
+6. Short work-style questions + follow-ups based on your answers
+7. Writes `context/job_hunt_profile.json` and `context/USER_CONTEXT.md` (local, gitignored)
+
+The poller uses your profile to boost/penalize scores and enforce your comp floor.
+
+## Outputs
+
+| File | What it is |
+|------|------------|
+| `tracking/job_hunt_apply_pack.md` | Top roles: score, comp, cover letter, one alumni note |
+| `tracking/job_hunt_results.md` | Full ranked list |
 | `tracking/job_hunt_results.csv` | Spreadsheet export |
 
-**Filters:** US remote or LA-area hybrid only; no manager/director stretch; expanded company list (40+ ATS boards). See `strategy/COMPANY_TRACKER.md`.
-
-## LinkedIn outreach (alumni + recruiter backup)
-
-See [`strategy/LINKEDIN_OUTREACH.md`](strategy/LINKEDIN_OUTREACH.md). Generates UCSB/Penn State alumni notes and a recruiter fallback.
+## More commands
 
 ```powershell
-python scripts/find_jobs.py --days 45 --min-score 16 --top 6
+python scripts/job_hunt.py run --days 45 --top 10 --school "Penn State"
+python scripts/job_hunt.py score --file jd.txt
+python scripts/score_job_listing.py
+python scripts/log_agent_suggestion.py --company X --title "Y"
 ```
 
-Each role in `tracking/job_hunt_apply_pack.md` includes a **cover letter blurb** and **LinkedIn alumni + recruiter** messages. Standalone file: `python scripts/gen_linkedin_outreach.py --company Rain --title "..."`.
+## Strategy docs
 
-## Simplify sync (applied jobs → fresh list)
+- `strategy/APPLICATION_SCORING.md` — rubric
+- `strategy/COMPANY_TRACKER.md` — poller workflow
+- `strategy/LINKEDIN_OUTREACH.md` — alumni notes
+- `tracking/SIMPLIFY_IMPORT.md` — Simplify CSV sync
 
-Simplify has **no public API**. After you apply via Simplify, export CSV from the [dashboard](https://simplify.jobs/dashboard), then:
+## Repo layout
 
-```powershell
-python scripts/sync_simplify.py
-```
+- `scripts/job_hunt.py` — main entry
+- `scripts/find_jobs.py` — ATS poller
+- `scripts/target_companies.json` — company boards
+- `context/job_hunt_profile.example.json` — profile template
 
-Merges into `applications.csv` and updates `agent_suggested.json` so the job hunt poller hides roles you already applied to. See `tracking/SIMPLIFY_IMPORT.md`.
-
-## Other scripts
-
-```powershell
-python scripts/score_job_listing.py   # score a pasted JD
-python scripts/gen_cover_letter_pdf.py tracking/roles/My-Letter.txt
-```
-
-## Status
-
-- **Phase 1:** Positioning + process
-- **Phase 2:** ATS poller + rubric scoring (active)
-- **Phase 3:** Optional browser assist (not mass auto-apply)
+Private local files (gitignored): `context/USER_CONTEXT.md`, `context/job_hunt_profile.json`, `tracking/applications.csv`, resume PDFs.

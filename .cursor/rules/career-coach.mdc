@@ -7,7 +7,7 @@ alwaysApply: true
 
 # Career coach rules
 
-Read `context/USER_CONTEXT.md` before career advice.
+Read `context/USER_CONTEXT.md` before career advice. If missing, tell user to run `python scripts/job_hunt.py onboard` (also reads `context/job_hunt_profile.json` when present).
 
 ## User profile (summary)
 
@@ -41,10 +41,11 @@ Write as **Miles**: direct, practical, builder-first. Short sentences OK. No cor
 
 ## Job search workflow
 
-1. Score jobs before applying (tracker: `tracking/applications.csv`)
-2. Max 5 quality applications per day
-3. Tailor with resume variant + short cover blurb per JD — not batch Gemini triage of 50 titles
-4. LinkedIn positioning must emphasize **builder/automation**, not wealth-management AM
+1. First-time: `python scripts/job_hunt.py onboard` (resume, interests, disinterests, comp, location, personality)
+2. Poll: `python scripts/job_hunt.py run` → `tracking/job_hunt_apply_pack.md`
+3. Score jobs before applying (tracker: `tracking/applications.csv`); max 5 quality applications per day
+4. Simplify sync: `python scripts/job_hunt.py sync` after dashboard export
+5. LinkedIn: one alumni connection note per role from apply pack (not InMail spam)
 
 ## Code / automation
 

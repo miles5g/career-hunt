@@ -33,15 +33,18 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CONFIG_PATH = Path(__file__).resolve().parent / "target_companies.json"
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+CONFIG_PATH = _SCRIPT_DIR / "target_companies.json"
 OUT_CSV = ROOT / "tracking" / "job_hunt_results.csv"
 OUT_MD = ROOT / "tracking" / "job_hunt_results.md"
 OUT_APPLY = ROOT / "tracking" / "job_hunt_apply_pack.md"
 AGENT_SUGGESTED = ROOT / "tracking" / "agent_suggested.json"
 
 # Actionable CSV: APPLY + high MAYBE. Apply pack: strong fits, min 10 when possible.
-MAYBE_MIN_SCORE = 19
-APPLY_PACK_MIN_SCORE = 18
+MAYBE_MIN_SCORE = 18
+APPLY_PACK_MIN_SCORE = 17
 DEFAULT_TOP_N = 12
 APPLY_PACK_MAX_PER_COMPANY = 2
 APPLY_PACK_TARGET = 10
@@ -111,14 +114,46 @@ def _parse_dollar(s: str) -> float:
     return n
 
 
-def comp_floor_ok(description: str) -> bool:
+def _fmt_comp_amount(s: str) -> str:
+    n = _parse_dollar(s)
+    if n >= 1000:
+        return f"${int(round(n / 1000))}k"
+    return f"${int(n)}"
+
+
+def format_compensation(description: str, ashby_comp: dict | None = None) -> str:
+    """Human-readable comp from Ashby payload or JD text."""
+    if ashby_comp:
+        raw = (
+            ashby_comp.get("scrapeableCompensationSalarySummary")
+            or ashby_comp.get("compensationTierSummary")
+        )
+        if raw:
+            return re.sub(r"[^\x20-\x7E]", "-", str(raw)).strip()
+    ranges = COMP_RANGE_RE.findall(description or "")
+    if ranges:
+        parts = [f"{_fmt_comp_amount(lo)}-{_fmt_comp_amount(hi)}" for lo, hi in ranges[:2]]
+        return " / ".join(parts)
+    singles = []
+    for m in COMP_RE.finditer(description or ""):
+        val = m.group(1)
+        if val.isdigit():
+            singles.append(int(val))
+    if singles:
+        top = max(singles)
+        return f"~${top}k mentioned" if top < 1000 else f"~${int(top / 1000)}k mentioned"
+    return "Not listed in ATS"
+
+
+def comp_floor_ok(description: str, floor: int | None = None) -> bool:
     """Skip roles where the posted salary range tops out below comp floor."""
+    floor = floor if floor is not None else COMP_FLOOR
     tops = []
     for low, high in COMP_RANGE_RE.findall(description):
         tops.append(_parse_dollar(high))
     if not tops:
         return True
-    return max(tops) >= COMP_FLOOR
+    return max(tops) >= floor
 
 
 def jd_requires_years(description: str, minimum: int = 5) -> bool:
@@ -162,6 +197,9 @@ def title_is_level_stretch(title: str) -> bool:
         r"operations analyst|revenue operations|business operations)\b",
         t,
     ):
+        return False
+    # "Lead Business Analyst" is IC; "Lead Generation" / team lead is not
+    if re.search(r"\blead\s+(business\s+)?analyst\b", t):
         return False
     if LEVEL_STRETCH_RE.search(title):
         return True
@@ -381,12 +419,15 @@ def fetch_ashby(slug: str) -> list[dict] | None:
         loc = j.get("location", "")
         if j.get("isRemote"):
             loc = (loc + " (Remote)").strip()
+        desc = (j.get("descriptionPlain") or j.get("description") or "")[:4000]
+        comp_obj = j.get("compensation")
         jobs.append({
             "title": j.get("title", ""),
             "location": loc,
             "url": j.get("jobUrl") or j.get("applyUrl", ""),
             "posted": parse_iso(j.get("publishedDate") or j.get("publishedAt")),
-            "description": (j.get("descriptionPlain") or j.get("description") or "")[:4000],
+            "description": desc,
+            "ashby_compensation": comp_obj if isinstance(comp_obj, dict) else None,
         })
     return jobs
 
@@ -422,6 +463,27 @@ FETCHERS = {
     "ashby": fetch_ashby,
     "smartrecruiters": fetch_smartrecruiters,
 }
+
+try:
+    from application_copy import apply_pack_copy_sections, clean_jd_text
+except ImportError:
+    apply_pack_copy_sections = None  # type: ignore
+    clean_jd_text = None  # type: ignore
+
+try:
+    from profile import (
+        comp_floor_usd,
+        hybrid_cities as profile_hybrid_cities,
+        load_profile,
+        preference_adjustment,
+        profile_ready,
+    )
+except ImportError:
+    load_profile = None  # type: ignore
+    preference_adjustment = None  # type: ignore
+    profile_ready = None  # type: ignore
+    comp_floor_usd = None  # type: ignore
+    profile_hybrid_cities = None  # type: ignore
 
 
 # --- Filtering + scoring ---
@@ -485,15 +547,30 @@ def _has_us_remote_signal(loc: str, blob: str) -> bool:
     return False
 
 
-def location_classify(location: str, description: str = "") -> str:
+def location_classify(
+    location: str,
+    description: str = "",
+    profile: dict | None = None,
+) -> str:
     """Return 'remote', 'hybrid_sm', or 'reject'.
 
-    Hard rule: US-remote OK. Hybrid only if Santa Monica (not broader LA / Hawthorne).
+    Hard rule: US-remote OK. Hybrid only if profile/Santa Monica allowlist.
     No SF/NYC/Seattle hybrid, no 3+ days in-office, no non-US-only posts.
     """
     loc = (location or "").strip()
     low = loc.lower()
     blob = f"{loc} {(description or '')[:8000]}".lower()
+    hybrid_allow = list(SM_HYBRID)
+    if profile and profile_hybrid_cities:
+        hybrid_allow.extend(profile_hybrid_cities(profile))
+    hybrid_allow = list(dict.fromkeys(hybrid_allow))
+    if profile:
+        for city in (profile.get("location") or {}).get("exclude_cities") or []:
+            if city and city in low:
+                if not _has_us_remote_signal(loc, blob):
+                    return "reject"
+            if city and city in blob and "hybrid" in blob and not _has_us_remote_signal(loc, blob):
+                return "reject"
 
     if HEAVY_RTO_RE.search(blob):
         return "reject"
@@ -515,8 +592,8 @@ def location_classify(location: str, description: str = "") -> str:
         return "reject"
 
     has_remote = _has_us_remote_signal(loc, blob)
-    in_sm = any(s in low for s in SM_HYBRID) or (
-        any(s in blob for s in SM_HYBRID) and ("hybrid" in blob or "santa monica" in low)
+    in_sm = any(s in low for s in hybrid_allow) or (
+        any(s in blob for s in hybrid_allow) and ("hybrid" in blob or any(s in low for s in hybrid_allow))
     )
     non_la_hit = [c for c in NON_LA_OFFICE if c in blob]
     onsite_in_loc = [c for c in ONSITE_CITY_MARKERS + NON_LA_OFFICE if c in low]
@@ -728,7 +805,20 @@ def resume_variant(title: str) -> str:
     return "Ops-Automation"
 
 
-def run(days: int, min_score: int, tier_filter: str | None, top_n: int) -> list[dict]:
+def run(
+    days: int,
+    min_score: int,
+    tier_filter: str | None,
+    top_n: int,
+    school: str | None = None,
+) -> list[dict]:
+    profile = load_profile() if load_profile else None
+    if profile and profile_ready and not profile_ready(profile):
+        profile = None
+    comp_floor = comp_floor_usd(profile) if comp_floor_usd else COMP_FLOOR
+    if profile and profile_ready and profile_ready(profile):
+        print(f"Profile loaded (comp floor ${comp_floor:,}).\n")
+
     config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     results = []
     failed = []
@@ -754,18 +844,25 @@ def run(days: int, min_score: int, tier_filter: str | None, top_n: int) -> list[
                 continue
             if sales_grind(job["title"], job["description"]):
                 continue
-            if not comp_floor_ok(job["description"]):
+            if not comp_floor_ok(job["description"], comp_floor):
                 continue
-            loc_type = location_classify(job["location"], job["description"])
+            loc_type = location_classify(job["location"], job["description"], profile)
             if loc_type == "reject":
                 continue
             d = days_ago(job["posted"])
             if d is not None and d > days:
                 continue
             total, rec = score_job(job["title"], job["description"], job["location"])
+            pref_delta, pref_note = (0, "")
+            if preference_adjustment and profile:
+                pref_delta, pref_note = preference_adjustment(
+                    job["title"], job["description"], profile,
+                )
+                total = max(0, min(25, total + pref_delta))
             if total < min_score:
                 continue
             matched_any = True
+            desc = job.get("description", "")[:3000]
             results.append({
                 "company": entry["company"],
                 "tier": entry.get("tier", ""),
@@ -776,7 +873,11 @@ def run(days: int, min_score: int, tier_filter: str | None, top_n: int) -> list[
                 "posted_days": d if d is not None else "",
                 "score": total,
                 "rec": rec,
-                "description": job.get("description", "")[:3000],
+                "description": desc,
+                "compensation": format_compensation(
+                    desc, job.get("ashby_compensation"),
+                ),
+                "pref_note": pref_note,
             })
         if not matched_any:
             no_match.append(entry["company"])
@@ -844,14 +945,40 @@ def run(days: int, min_score: int, tier_filter: str | None, top_n: int) -> list[
         co_count[r["company"]] = n + 1
         if len(top) >= top_n:
             break
+
+    # Backfill toward APPLY_PACK_TARGET when strict pool is thin (allow borderline; tag in pack)
+    goal = max(top_n, APPLY_PACK_TARGET)
+    if len(top) < goal:
+        in_top = {id(x) for x in top}
+        backfill_pool = sorted(
+            [r for r in actionable_unique if id(r) not in in_top and r["score"] >= 17],
+            key=pick_key,
+            reverse=True,
+        )
+        for r in backfill_pool:
+            n = co_count.get(r["company"], 0)
+            if n >= APPLY_PACK_MAX_PER_COMPANY:
+                continue
+            r["pack_tier"] = "stretch" if obvious_stretch(
+                r["title"], r.get("description", "")
+            ) else "solid"
+            top.append(r)
+            co_count[r["company"]] = n + 1
+            in_top.add(id(r))
+            if len(top) >= goal:
+                break
+    for r in top:
+        r.setdefault("pack_tier", "solid")
+
     skipped = [r for r in actionable if r not in top and is_actionable(r["rec"], r["score"])]
 
     write_outputs(
         results, actionable_unique, top, skipped, failed, no_match,
         config.get("manual", []), days, min_score, tier_filter,
         already_suggested,
+        school=school,
     )
-    record_agent_suggestions(top)
+    # Suggestions logged when you apply: scripts/log_agent_suggestion.py
     print_console(
         top, failed, config.get("manual", []), tier_filter,
         len(actionable_unique), len(results), already_suggested,
@@ -862,15 +989,22 @@ def run(days: int, min_score: int, tier_filter: str | None, top_n: int) -> list[
 def write_outputs(
     results, actionable_unique, top, skipped, failed, no_match, manual, days, min_score, tier_filter,
     already_suggested: list[dict] | None = None,
+    school: str | None = None,
 ):
     already_suggested = already_suggested or []
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with OUT_CSV.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["score", "rec", "company", "tier", "title", "location", "posted_days_ago", "url", "resume"])
+        w.writerow([
+            "score", "rec", "company", "tier", "title", "location",
+            "compensation", "posted_days_ago", "url", "resume",
+        ])
         for r in top:
-            w.writerow([r["score"], r["rec"], r["company"], r["tier"], r["title"],
-                        r["location"], r["posted_days"], r["url"], resume_variant(r["title"])])
+            w.writerow([
+                r["score"], r["rec"], r["company"], r["tier"], r["title"],
+                r["location"], r.get("compensation", ""), r["posted_days"],
+                r["url"], resume_variant(r["title"]),
+            ])
 
     tier_note = f" Tier: {tier_filter}." if tier_filter else ""
     lines = [
@@ -904,16 +1038,21 @@ def write_outputs(
             lines.append(f"- **{r['company']}** — {r['title']}: {reason}")
         lines.append("")
     if top:
-        lines += ["| Score | Rec | Company | Title | Location | Posted | Link |",
-                  "|-------|-----|---------|-------|----------|--------|------|"]
+        lines += [
+            "| Score | Rec | Company | Title | Comp | Location | Posted | Link |",
+            "|-------|-----|---------|-------|------|----------|--------|------|",
+        ]
         for r in top:
             posted = f"{r['posted_days']}d ago" if r["posted_days"] != "" else "?"
+            comp = (r.get("compensation") or "—").replace("|", "/")
             lines.append(
                 f"| {r['score']}/25 | {r['rec']} | {r['company']} | {r['title']} | "
-                f"{r['location']} | {posted} | [link]({r['url']}) |"
+                f"{comp} | {r['location']} | {posted} | [link]({r['url']}) |"
             )
         lines.append("")
-        lines.append(f"Cover letters + JD context: `{OUT_APPLY.name}` (agent fills after scan).")
+        lines.append(
+            f"Cover letters + alumni note: `{OUT_APPLY.name}` (generated per role)."
+        )
         lines.append("")
 
     if manual:
@@ -939,40 +1078,46 @@ def write_outputs(
         f"# Apply pack ({datetime.now().strftime('%Y-%m-%d %H:%M')})",
         "",
         skip_note
-        + "APPLY-tier (score >= 18) or strong MAYBE (>= 19). Remote US or Santa Monica only. "
-        "Say **fresh list** to refresh. Paste JD in chat if `[needs full JD]`.",
+        + "Ranked for your profile when `context/job_hunt_profile.json` exists. "
+        "Each role: score line + cover letter + one alumni note. Full JD at Apply link.",
         "",
     ]
     for i, r in enumerate(top, 1):
         posted = f"{r['posted_days']}d ago" if r["posted_days"] != "" else "?"
         desc = (r.get("description") or "").strip()
-        has_jd = len(desc) > 120
+        pref = f" · {r['pref_note']}" if r.get("pref_note") else ""
         pack += [
             f"---",
             f"## {i}. {r['company']} — {r['title']}",
             "",
-            f"- **Score:** {r['score']}/25 · **Rec:** {r['rec']} · **Posted:** {posted}",
-            f"- **Location:** {r['location']} ({r.get('loc_type', '?')})",
-            f"- **Resume:** `{resume_variant(r['title'])}`",
-            f"- **Apply:** {r['url']}",
-            "",
+            f"**{r['score']}/25** {r['rec']} · {posted} · {r.get('compensation', 'Comp n/a')} · "
+            f"{r['location']} · resume `{resume_variant(r['title'])}` · [Apply]({r['url']})",
         ]
-        if has_jd:
-            pack.append("**JD excerpt (from ATS):**")
-            pack.append("")
-            pack.append("```")
-            pack.append(desc[:1200].strip())
-            pack.append("```")
-            pack.append("")
+        if r.get("pack_tier") == "stretch":
+            reason = r.get("stretch_reason") or obvious_stretch(
+                r["title"], r.get("description", "")
+            )
+            pack.append(f"Stretch: {reason}{pref}")
+        elif pref:
+            pack.append(pref.strip(" · "))
+        pack.append("")
+        if apply_pack_copy_sections:
+            pack.extend(
+                apply_pack_copy_sections(
+                    company=r["company"],
+                    title=r["title"],
+                    role_url=r.get("url", ""),
+                    description=desc,
+                    school_arg=school,
+                )
+            )
         else:
-            pack.append("*[needs full JD — paste from apply link before final cover letter]*")
-            pack.append("")
-        pack += [
-            "### Cover letter",
-            "",
-            "*Agent: write tailored blurb here after scan. Short text-box (~150 words) unless JD asks for more.*",
-            "",
-        ]
+            pack += [
+                "### Cover letter",
+                "",
+                "*Run from repo root so application_copy imports.*",
+                "",
+            ]
     if not top:
         pack += [
             "",
@@ -1031,8 +1176,13 @@ def main() -> None:
                    help="Limit to one tier")
     p.add_argument("--top", type=int, default=DEFAULT_TOP_N,
                    help=f"Max roles in apply pack (default {DEFAULT_TOP_N})")
+    p.add_argument(
+        "--school",
+        default=None,
+        help="Alumni school for connection note (e.g. UCSB, Penn State). Default: outreach_config primary_school",
+    )
     args = p.parse_args()
-    run(args.days, args.min_score, args.tier, args.top)
+    run(args.days, args.min_score, args.tier, args.top, school=args.school)
 
 
 if __name__ == "__main__":
