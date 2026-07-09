@@ -9,6 +9,8 @@ alwaysApply: true
 
 Read `context/USER_CONTEXT.md` before career advice. If missing, tell user to run `python scripts/job_hunt.py onboard` (also reads `context/job_hunt_profile.json` when present).
 
+For employer-validated accomplishments and interview rapport, also read `context/GURSEY_EMPLOYEE_SPOTLIGHT_2026-07.md` (STAR Employee of the Month, Jul 2026).
+
 ## User profile (summary)
 
 - Miles Contreras Johnson, Santa Monica CA — technical operator, not entry-level
