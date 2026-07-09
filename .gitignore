@@ -12,6 +12,7 @@ resumes/Miles-Johnson-*.md
 
 # Generated cover letters / PDFs
 *.pdf
+!context/GURSEY_EMPLOYEE_SPOTLIGHT_2026-07.pdf
 
 # Nested git clone
 miles5g-profile/

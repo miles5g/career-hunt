@@ -1,6 +1,6 @@
 # Career search status
 
-**Last updated:** 2026-05-21
+**Last updated:** 2026-07-09
 
 ---
 
@@ -15,6 +15,7 @@
 | **Simplify import** | 84 jobs in `tracking/applications.csv` · analysis in `tracking/SIMPLIFY_ANALYSIS.md` |
 | **GitHub / portfolio** | Profile README, ListSnap migrated, repos renamed |
 | **Resume drafts** | 2 variants in `resumes/` (Ops + Product/Implementation) |
+| **Gursey spotlight** | STAR Employee of the Month (Jul 2026) — `context/GURSEY_EMPLOYEE_SPOTLIGHT_2026-07.md` + PDF |
 
 ---
 
