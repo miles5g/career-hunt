@@ -28,12 +28,21 @@
 
 ---
 
+## Active pipeline
+
+| Company | Role | Status | Notes |
+|---------|------|--------|-------|
+| **Iru** | Operations Engineer (Miami hybrid) | Post-screen; nudge due | Taylor Kramer (Talent). Call Fri 8/14. See `context/IRU_OPS_ENGINEER.md` |
+
+---
+
 ## Next actions
 
-1. [ ] Export 2 PDFs from `resumes/*.md`  
-2. [ ] First quality week — daily LinkedIn remote stack + 2× Wellfound  
-3. [ ] Tier 1 follow-ups from `SIMPLIFY_ANALYSIS.md` (optional, 10 max)  
-4. [ ] Fill `strategy/TARGET_COMPANIES.md` (15–20 cos)  
+1. [ ] Send Iru LinkedIn nudge to Taylor (draft in `context/IRU_OPS_ENGINEER.md`)  
+2. [ ] Export 2 PDFs from `resumes/*.md`  
+3. [ ] First quality week — daily LinkedIn remote stack + 2× Wellfound  
+4. [ ] Tier 1 follow-ups from `SIMPLIFY_ANALYSIS.md` (optional, 10 max)  
+5. [ ] Fill `strategy/TARGET_COMPANIES.md` (15–20 cos)  
 
 ---
 
