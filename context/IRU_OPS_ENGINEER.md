@@ -52,10 +52,12 @@
 
 ## Follow-up nudge (LinkedIn) — draft 2026-08-20
 
+Timing: she said Tue or Wed; today is Thu 8/20. Window passed. Send today.
+
 ```
 Hi Taylor,
 
-Hope you're doing well. Following up on our call last week. You mentioned you'd loop back Tuesday or Wednesday on next steps. Wanted to check in and see if there's an update, or anything else you need from me.
+Hope you're doing well. Following up on our call last week. You mentioned you'd reach out Tuesday or Wednesday on next steps, so I wanted to check in and see if there's an update, or anything else you need from me.
 
 Still very interested in the Ops Engineer role.
 
@@ -68,11 +70,10 @@ Miles
 ```
 Hi Taylor,
 
-Checking in after our call last week. You'd mentioned looping back midweek on next steps. Happy to jump on another chat or send anything useful on my side. Still very interested.
+Checking in after our call last week. You'd mentioned looping back by Wednesday on next steps. Happy to jump on another chat or send anything useful on my side. Still very interested.
 
 Miles
 ```
-
 ---
 
 ## Open questions (ask in next conversation)
