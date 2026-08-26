@@ -55,6 +55,10 @@ Write as **Miles**: direct, practical, builder-first. Short sentences OK. No cor
 
 There is no shared OS folder between the phone cloud VM and the laptop. `miles5g/career-hunt` is the shared folder.
 
+**User shorthand (treat as commands)**
+- Phone: **"push any new info"** (also: push phone info, save this to the repo). Write durable facts to `tracking/LIVE_PIPELINE.md` now, update `CAREER_STATUS.md` if the table changed, commit, land it on **origin/main** (merge the PR or push main). Do not leave it only in chat or on a draft branch the laptop will never pull.
+- Laptop: **"pull any new phone info"** (also: pull, pull phone). Run `python scripts/job_hunt.py pull`, then read `tracking/LIVE_PIPELINE.md` (and Iru / Gursey files if those rows changed). Then answer using that as current status.
+
 **Every session start**
 - Laptop (Cursor Desktop): run `python scripts/job_hunt.py pull` before advice. That fetches `origin/main` into `Documents\\Cursor Projects\\Career`.
 - Phone / cloud: the checkout is whatever git ref the agent booted with. Read `tracking/LIVE_PIPELINE.md` anyway. You will not see gitignored laptop files.
