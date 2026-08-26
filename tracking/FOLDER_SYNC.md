@@ -9,11 +9,18 @@ Phone agent  --commit/PR-->  GitHub main  --git pull-->  laptop Career folder
 Laptop edits --commit/push->  GitHub main  --new agent-->  next phone session
 ```
 
+## What to say
+
+- **Phone:** `push any new info` → agent writes `tracking/LIVE_PIPELINE.md` and lands it on `main`.
+- **Laptop:** `pull any new phone info` → `python scripts/job_hunt.py pull`, then read the pipeline.
+
+That is the whole loop. Not automatic. Those two sentences are enough if the phone commit actually reached `main`.
+
 ## Daily loop
 
-1. **Laptop, start of session:** `python scripts/job_hunt.py pull`
-2. **Phone chat that changes a live thread:** tell the agent to update `tracking/LIVE_PIPELINE.md` (the coach rule already requires this). Merge that PR (or this standing sync PR), then pull on the laptop.
-3. **New phone agent:** start it on **main** after merge, not on an old chat’s branch.
+1. **Laptop, start of session:** say **pull any new phone info** (or run `python scripts/job_hunt.py pull`).
+2. **Phone chat that changes a live thread:** say **push any new info**.
+3. **New phone agent:** start it on **main**, not an old chat’s branch.
 
 Optional Windows (pull when you log in): Task Scheduler → `python` → args `scripts/job_hunt.py pull` → start in `Documents\Cursor Projects\Career`.
 
