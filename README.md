@@ -56,6 +56,7 @@ python scripts/log_agent_suggestion.py --company X --title "Y"
 - `strategy/COMPANY_TRACKER.md` — poller workflow
 - `strategy/LINKEDIN_OUTREACH.md` — alumni notes
 - `tracking/SIMPLIFY_IMPORT.md` — Simplify CSV sync
+- `tracking/LIVE_PIPELINE.md` — phone + laptop outreach status
 
 ## Repo layout
 
@@ -65,3 +66,19 @@ python scripts/log_agent_suggestion.py --company X --title "Y"
 - `context/job_hunt_profile.example.json` — profile template
 
 Private local files (gitignored): `context/USER_CONTEXT.md`, `context/job_hunt_profile.json`, `tracking/applications.csv`, resume PDFs.
+
+## Phone CareerHunt ↔ laptop Career folder
+
+There is no live disk between the phone cloud VM and the laptop. GitHub is the shared folder. Detail: `tracking/FOLDER_SYNC.md`.
+
+```powershell
+# laptop, start of a Cursor session
+python scripts/job_hunt.py pull
+```
+
+- **Laptop:** `Documents\Cursor Projects\Career`
+- **Phone:** new cloud agents on **main** after merge
+- **Outreach source of truth:** `tracking/LIVE_PIPELINE.md`
+- Coach rule: persist new recruiter facts in that file in the same turn, then commit
+
+Private local files still do not sync: `USER_CONTEXT.md`, `job_hunt_profile.json`, `applications.csv`, resume PDFs.

@@ -6,6 +6,8 @@ Job hunt — single entry point.
   python scripts/job_hunt.py onboard      # profile setup (resume first)
   python scripts/job_hunt.py run          # poll ATS + apply pack
   python scripts/job_hunt.py sync         # Simplify CSV merge
+  python scripts/job_hunt.py pull         # git pull GitHub into this folder
+  python scripts/job_hunt.py pull         # git pull GitHub into this folder
   python scripts/job_hunt.py score        # score a pasted JD
 """
 
@@ -46,6 +48,15 @@ def cmd_sync(args: argparse.Namespace) -> None:
     run_sync(file=args.file, dry_run=args.dry_run)
 
 
+def cmd_pull(args: argparse.Namespace) -> None:
+    from sync_career import cmd_pull, cmd_status
+
+    if args.status:
+        cmd_status()
+    else:
+        cmd_pull()
+
+
 def cmd_score(args: argparse.Namespace) -> None:
     from score_job_listing import main as score_main
 
@@ -83,6 +94,9 @@ Examples:
     sync_p.add_argument("--file", type=Path, default=None)
     sync_p.add_argument("--dry-run", action="store_true")
 
+    pull_p = sub.add_parser("pull", help="Pull GitHub (shared folder) into this checkout")
+    pull_p.add_argument("--status", action="store_true", help="Fetch and report only")
+
     score_p = sub.add_parser("score", help="Score one JD (stdin or --file)")
     score_p.add_argument("--file", type=Path, default=None)
 
@@ -96,7 +110,13 @@ Examples:
             print("\nStart here:  python scripts/job_hunt.py onboard\n")
         return
 
-    dispatch = {"onboard": cmd_onboard, "run": cmd_run, "sync": cmd_sync, "score": cmd_score}
+    dispatch = {
+        "onboard": cmd_onboard,
+        "run": cmd_run,
+        "sync": cmd_sync,
+        "pull": cmd_pull,
+        "score": cmd_score,
+    }
     dispatch[args.command](args)
 
 

@@ -9,12 +9,15 @@ alwaysApply: true
 
 Read `context/USER_CONTEXT.md` before career advice. If missing, tell user to run `python scripts/job_hunt.py onboard` (also reads `context/job_hunt_profile.json` when present).
 
+Before outreach or status advice, also read `tracking/LIVE_PIPELINE.md` (phone + laptop shared pipeline). For employer-validated accomplishments and interview rapport, read `context/GURSEY_EMPLOYEE_SPOTLIGHT_2026-07.md` (STAR Employee of the Month, Jul 2026). For the Iru thread, read `context/IRU_OPS_ENGINEER.md`. For the internal Gursey promo, read `context/GURSEY_INTERNAL_TRACK.md`.
+
 ## User profile (summary)
 
 - Miles Contreras Johnson, Santa Monica CA — technical operator, not entry-level
 - ~2 years high-signal ops/automation at Gursey ($100M+ portfolios); VBA/LLM/80% time savings
-- Target: Product Ops, BizOps, SaaS Implementation, automation-heavy ops — **remote US only, or hybrid LA/Santa Monica (1–2 day max). No other cities.**
-- Comp floor $100k; realistic band $120–150k
+- Current Gursey pay **$86k**. Internal ask after recordings: **$115k** + Senior + Practice Automation. External target **$120–150k**. Do not quote the external band inside Gursey.
+- Target: Product Ops, BizOps, SaaS Implementation, automation-heavy ops — **remote US only, or hybrid LA/Santa Monica (1–2 day max). No other cities.** Exception already accepted: Iru Ops Engineer, Miami/Coral Gables hybrid + relo.
+- Comp floor $100k
 - **#1 priority:** non-boring, strategic, systems-building work — avoid accounting grind and toxic corp culture
 - ISTP/E: concise, actionable, no fluff; default to automation over manual process
 
@@ -46,10 +49,27 @@ Write as **Miles**: direct, practical, builder-first. Short sentences OK. No cor
 3. Score jobs before applying (tracker: `tracking/applications.csv`); max 5 quality applications per day
 4. Simplify sync: `python scripts/job_hunt.py sync` after dashboard export
 5. LinkedIn: one alumni connection note per role from apply pack (not InMail spam)
+6. Phone and laptop share **GitHub**, not a disk. See Folder sync below.
+
+## Folder sync (required)
+
+There is no shared OS folder between the phone cloud VM and the laptop. `miles5g/career-hunt` is the shared folder.
+
+**Every session start**
+- Laptop (Cursor Desktop): run `python scripts/job_hunt.py pull` before advice. That fetches `origin/main` into `Documents\\Cursor Projects\\Career`.
+- Phone / cloud: the checkout is whatever git ref the agent booted with. Read `tracking/LIVE_PIPELINE.md` anyway. You will not see gitignored laptop files.
+
+**When the user dumps a new recruiter thread, screenshot, or decision**
+1. Update `tracking/LIVE_PIPELINE.md` in the same turn (company, person, role, date, status, send-or-not).
+2. Update `CAREER_STATUS.md` if the active table changed.
+3. Add/update a `context/*.md` file only for threads that will span more than one chat (Iru, Gursey internal).
+4. Commit those files so the other device can pull. Do not leave facts only in chat.
+
+**Never commit:** phone numbers, Gursey client data, `USER_CONTEXT.md`, resume PDFs, `applications.csv`.
 
 ## Code / automation
 
-- Scripts go in `Career/scripts/`
+- Scripts in this repo live in `scripts/` (laptop folder is usually `Documents\Cursor Projects\Career`)
 - Automate scoring, tracking, bullet prep — not unchecked submissions
 - Reference GitHub portfolio (miles5g) when relevant
 
