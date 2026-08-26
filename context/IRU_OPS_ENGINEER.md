@@ -1,7 +1,7 @@
 # Iru — Operations Engineer (active)
 
-**Last updated:** 2026-08-20  
-**Status:** Post-screen follow-up due (nudge)  
+**Last updated:** 2026-08-26  
+**Status:** Post-screen. 8/20 nudge drafted. Send status unconfirmed. 12 days post-call as of 8/26.  
 **Channel:** LinkedIn (Taylor Kramer, Talent @ Iru)  
 **JD:** https://jobs.lever.co/iru/0a6b47b1-d788-4d61-aeea-c87c5a1afe99  
 **Do not apply on Lever** (Taylor: no need to apply directly)
@@ -39,7 +39,8 @@
 | Fri 2026-08-14 ~11:30am PT | Screen call (Taylor called Miles) |
 | On call (Miles recall) | Taylor said she would reach out **Tue or Wed** about next steps |
 | Tue–Wed 2026-08-18/19 | No message from Taylor |
-| Thu 2026-08-20 | Follow-up nudge (draft below) |
+| Thu 2026-08-20 | Follow-up nudge (draft below). **Not confirmed sent.** |
+| Wed 2026-08-26 | Phone transcripts synced into this repo. Still no recorded Taylor reply. |
 
 ---
 

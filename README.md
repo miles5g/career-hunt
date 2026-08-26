@@ -56,6 +56,7 @@ python scripts/log_agent_suggestion.py --company X --title "Y"
 - `strategy/COMPANY_TRACKER.md` — poller workflow
 - `strategy/LINKEDIN_OUTREACH.md` — alumni notes
 - `tracking/SIMPLIFY_IMPORT.md` — Simplify CSV sync
+- `tracking/LIVE_PIPELINE.md` — phone + laptop outreach status
 
 ## Repo layout
 
@@ -65,3 +66,14 @@ python scripts/log_agent_suggestion.py --company X --title "Y"
 - `context/job_hunt_profile.example.json` — profile template
 
 Private local files (gitignored): `context/USER_CONTEXT.md`, `context/job_hunt_profile.json`, `tracking/applications.csv`, resume PDFs.
+
+## Phone CareerHunt ↔ laptop Career folder
+
+This GitHub repo (`miles5g/career-hunt`) is the sync point.
+
+- **Laptop:** `Documents\Cursor Projects\Career` (Cursor). After a merge to `main`, `git pull`.
+- **Phone:** Cursor cloud agents on this same repo. They do **not** see gitignored files (`USER_CONTEXT.md`, `applications.csv`, resume PDFs).
+- **Shared source of truth for outreach:** `tracking/LIVE_PIPELINE.md`, plus `context/IRU_OPS_ENGINEER.md` and `context/GURSEY_INTERNAL_TRACK.md`.
+- After a phone chat that changes a live thread, tell the agent: update `LIVE_PIPELINE.md` and `CAREER_STATUS.md`. Then pull on the laptop.
+
+Do not put phone numbers or Gursey client data in committed files.

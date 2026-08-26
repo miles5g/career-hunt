@@ -1,6 +1,8 @@
 # Career search status
 
-**Last updated:** 2026-07-09
+**Last updated:** 2026-08-26 (phone CareerHunt chats merged into this repo)
+
+Live outreach detail: `tracking/LIVE_PIPELINE.md`
 
 ---
 
@@ -21,10 +23,11 @@
 
 ## Search meta (current)
 
-- **Not** mass apply — **≤5 scored apps/day** (LinkedIn), **≤2/session** (Wellfound)  
-- **Two resume PDFs** map to **Operations vs Product** Wellfound saves and LinkedIn lanes  
-- **Boredom filter** in rubric — dream job > volume  
-- **Comp floor:** $100k base  
+- **Not** mass apply — **≤5 scored apps/day** (LinkedIn), **≤2/session** (Wellfound)
+- **Two resume PDFs** map to **Operations vs Product** Wellfound saves and LinkedIn lanes
+- **Boredom filter** in rubric — dream job > volume
+- **Comp floor:** $100k base. External band **$120–150k**. Gursey today **$86k**; internal ask **$115k** after recordings.
+- **Location:** remote US or SM/Westside 1–2 days. **Iru Miami hybrid is the only accepted exception.**
 
 ---
 
@@ -32,17 +35,30 @@
 
 | Company | Role | Status | Notes |
 |---------|------|--------|-------|
-| **Iru** | Operations Engineer (Miami hybrid) | Post-screen; nudge due | Taylor Kramer (Talent). Call Fri 8/14. See `context/IRU_OPS_ENGINEER.md` |
+| **Iru** | Operations Engineer (Miami hybrid) | Post-screen; 8/20 nudge unconfirmed | Taylor Kramer. Call Fri 8/14. `context/IRU_OPS_ENGINEER.md` |
+| **Gursey** | Senior + Practice Automation | Recordings due ~Aug 29 | Internal. $86k now / $115k ask. `context/GURSEY_INTERNAL_TRACK.md` |
+| **First Connect** | Strategic Operations Associate | Resume sent ~Aug 6; one bump | Casey Cortes. $130–140k + equity. Remote. |
+| **Riot** (AgreeYa) | Insights Analyst III, BizOps | Early Jul hottest lead; outcome unknown | Sunny Kumar. High W2 contract. 1–2 days campus. |
+| **micro1** | AI Strategy & Business Ops Expert | Learn more | Gaurav / Crossing Hurdles. $100–200/hr contract. |
+| **Affirm** | RevOps network | Jun 10 Lead posting dead | Aviva (call OK). Saif (alumni intel only). |
+| **HubSpot** | BSA Legal Tech POS-12956 | Referral in motion | Hillary Howard. One bump max. |
+| **Samsara** | Partner Operations Analyst | Tiffany asked for AI proof | GitHub + LLM story. No Gursey files. |
+
+Closed / skip list (Planhat CSM, True Classic CoS, Charlie Health TM, Greenbox, $29/h Apple, TikTok seller ops, etc.): `tracking/LIVE_PIPELINE.md`.
 
 ---
 
 ## Next actions
 
-1. [ ] Send Iru LinkedIn nudge to Taylor (draft in `context/IRU_OPS_ENGINEER.md`)  
-2. [ ] Export 2 PDFs from `resumes/*.md`  
-3. [ ] First quality week — daily LinkedIn remote stack + 2× Wellfound  
-4. [ ] Tier 1 follow-ups from `SIMPLIFY_ANALYSIS.md` (optional, 10 max)  
-5. [ ] Fill `strategy/TARGET_COMPANIES.md` (15–20 cos)  
+1. [ ] Confirm whether the Iru Taylor nudge went out 8/20. If not, send or rewrite (12 days post-call).
+2. [ ] Gursey: finish two automation recordings by **Aug 29**. Book the early-Sept ask.
+3. [ ] First Connect: one Casey bump if not sent 8/11, then stop.
+4. [ ] Riot / Sunny: check whether resume + HM loop happened before another ping.
+5. [ ] Danielle (Proven): one criteria DM. Do not apply her current board.
+6. [ ] UCSB alum: send Ops Automation PDF in the approved voice. Ping when a live role scores APPLY.
+7. [ ] LinkedIn Honors: STAR Employee of the Month, Jul 2026.
+8. [ ] `python scripts/job_hunt.py onboard` on the laptop if `context/USER_CONTEXT.md` is still missing.
+9. [ ] Laptop: `git pull` this repo so phone and desktop share pipeline files.
 
 ---
 
