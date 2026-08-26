@@ -1,7 +1,7 @@
 # Live pipeline (phone + laptop)
 
 **Last synced from phone CareerHunt agents:** 2026-08-26  
-**How to keep this current:** after a phone chat that changes status, tell the agent to update this file and `CAREER_STATUS.md`, then pull on the laptop (`Documents\Cursor Projects\Career`). Do not put phone numbers or Gursey client data here. Repo is public.
+**How to keep this current:** phone agent updates this file in the same turn as new facts, then commit. Laptop: `python scripts/job_hunt.py pull`. See `tracking/FOLDER_SYNC.md`. Do not put phone numbers or Gursey client data here. Repo is public.
 
 Most LinkedIn drafts below were **approved in chat**. Send status is **unconfirmed** unless noted.
 

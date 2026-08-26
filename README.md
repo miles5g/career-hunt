@@ -69,11 +69,16 @@ Private local files (gitignored): `context/USER_CONTEXT.md`, `context/job_hunt_p
 
 ## Phone CareerHunt ↔ laptop Career folder
 
-This GitHub repo (`miles5g/career-hunt`) is the sync point.
+There is no live disk between the phone cloud VM and the laptop. GitHub is the shared folder. Detail: `tracking/FOLDER_SYNC.md`.
 
-- **Laptop:** `Documents\Cursor Projects\Career` (Cursor). After a merge to `main`, `git pull`.
-- **Phone:** Cursor cloud agents on this same repo. They do **not** see gitignored files (`USER_CONTEXT.md`, `applications.csv`, resume PDFs).
-- **Shared source of truth for outreach:** `tracking/LIVE_PIPELINE.md`, plus `context/IRU_OPS_ENGINEER.md` and `context/GURSEY_INTERNAL_TRACK.md`.
-- After a phone chat that changes a live thread, tell the agent: update `LIVE_PIPELINE.md` and `CAREER_STATUS.md`. Then pull on the laptop.
+```powershell
+# laptop, start of a Cursor session
+python scripts/job_hunt.py pull
+```
 
-Do not put phone numbers or Gursey client data in committed files.
+- **Laptop:** `Documents\Cursor Projects\Career`
+- **Phone:** new cloud agents on **main** after merge
+- **Outreach source of truth:** `tracking/LIVE_PIPELINE.md`
+- Coach rule: persist new recruiter facts in that file in the same turn, then commit
+
+Private local files still do not sync: `USER_CONTEXT.md`, `job_hunt_profile.json`, `applications.csv`, resume PDFs.

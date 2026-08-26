@@ -49,7 +49,23 @@ Write as **Miles**: direct, practical, builder-first. Short sentences OK. No cor
 3. Score jobs before applying (tracker: `tracking/applications.csv`); max 5 quality applications per day
 4. Simplify sync: `python scripts/job_hunt.py sync` after dashboard export
 5. LinkedIn: one alumni connection note per role from apply pack (not InMail spam)
-6. Phone CareerHunt agents write durable status to `tracking/LIVE_PIPELINE.md` so the laptop Career folder can `git pull`
+6. Phone and laptop share **GitHub**, not a disk. See Folder sync below.
+
+## Folder sync (required)
+
+There is no shared OS folder between the phone cloud VM and the laptop. `miles5g/career-hunt` is the shared folder.
+
+**Every session start**
+- Laptop (Cursor Desktop): run `python scripts/job_hunt.py pull` before advice. That fetches `origin/main` into `Documents\\Cursor Projects\\Career`.
+- Phone / cloud: the checkout is whatever git ref the agent booted with. Read `tracking/LIVE_PIPELINE.md` anyway. You will not see gitignored laptop files.
+
+**When the user dumps a new recruiter thread, screenshot, or decision**
+1. Update `tracking/LIVE_PIPELINE.md` in the same turn (company, person, role, date, status, send-or-not).
+2. Update `CAREER_STATUS.md` if the active table changed.
+3. Add/update a `context/*.md` file only for threads that will span more than one chat (Iru, Gursey internal).
+4. Commit those files so the other device can pull. Do not leave facts only in chat.
+
+**Never commit:** phone numbers, Gursey client data, `USER_CONTEXT.md`, resume PDFs, `applications.csv`.
 
 ## Code / automation
 
