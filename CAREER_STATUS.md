@@ -1,6 +1,6 @@
 # Career search status
 
-**Last updated:** 2026-08-26 (phone CareerHunt chats merged into this repo)
+**Last updated:** 2026-08-27 (Daybreak Ed interview invite logged)
 
 Live outreach detail: `tracking/LIVE_PIPELINE.md`
 
@@ -35,6 +35,7 @@ Live outreach detail: `tracking/LIVE_PIPELINE.md`
 
 | Company | Role | Status | Notes |
 |---------|------|--------|-------|
+| **Daybreak** | Business Ops Associate (Data Lead) | Book Ed interview via Kula | Bella Edwards. ~$120–150k, LA. Confirm hybrid days. |
 | **Iru** | Operations Engineer (Miami hybrid) | Post-screen; 8/20 nudge unconfirmed | Taylor Kramer. Call Fri 8/14. `context/IRU_OPS_ENGINEER.md` |
 | **Gursey** | Senior + Practice Automation | Recordings due ~Aug 29 | Internal. $86k now / $115k ask. `context/GURSEY_INTERNAL_TRACK.md` |
 | **First Connect** | Strategic Operations Associate | Resume sent ~Aug 6; one bump | Casey Cortes. $130–140k + equity. Remote. |
@@ -50,8 +51,9 @@ Closed / skip list (Planhat CSM, True Classic CoS, Charlie Health TM, Greenbox, 
 
 ## Next actions
 
-1. [ ] Confirm whether the Iru Taylor nudge went out 8/20. If not, send or rewrite (12 days post-call).
-2. [ ] Gursey: finish two automation recordings by **Aug 29**. Book the early-Sept ask.
+1. [ ] **Daybreak:** book Ed slot on Bella's Kula link, then send LinkedIn confirm (`tracking/LIVE_PIPELINE.md`).
+2. [ ] Confirm whether the Iru Taylor nudge went out 8/20. If not, send or rewrite (12 days post-call).
+3. [ ] Gursey: finish two automation recordings by **Aug 29**. Book the early-Sept ask.
 3. [ ] First Connect: one Casey bump if not sent 8/11, then stop.
 4. [ ] Riot / Sunny: check whether resume + HM loop happened before another ping.
 5. [ ] Danielle (Proven): one criteria DM. Do not apply her current board.

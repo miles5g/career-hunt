@@ -1,6 +1,6 @@
 # Live pipeline (phone + laptop)
 
-**Last synced from phone CareerHunt agents:** 2026-08-26  
+**Last synced from phone CareerHunt agents:** 2026-08-27  
 **How to keep this current:** phone agent updates this file in the same turn as new facts, then commit. Laptop: `python scripts/job_hunt.py pull`. See `tracking/FOLDER_SYNC.md`. Do not put phone numbers or Gursey client data here. Repo is public.
 
 Most LinkedIn drafts below were **approved in chat**. Send status is **unconfirmed** unless noted.
@@ -10,6 +10,16 @@ Default resume: **Ops Automation PDF**.
 ---
 
 ## Open / needs a decision
+
+### Daybreak — Business Operations Associate (Data Lead)
+
+- **Person:** Bella Edwards (recruiting). Interviewer: **Ed**.
+- **Comp (listing):** ~$120k–$150k. LA metro.
+- **Status (2026-08-27):** Bella LinkedIn: invite to meet Ed coming. Email invite landed same day: schedule **"Ed x Miles | Data Lead Interview with Daybreak"** via Kula link.
+- **Action:** Book a slot on the email link first. Then send LinkedIn confirm (draft below). Optional short email after booking.
+- **Fit check on call:** confirm office cadence. Role is LA. Keep if remote US or SM/Westside **1–2 days**. Pass if 5x RTO.
+- **Send LinkedIn (after booking):**
+  > Thanks Bella. Just booked a time with Ed on the link you sent. Looking forward to it.
 
 ### Iru — Operations Engineer (Miami hybrid)
 
