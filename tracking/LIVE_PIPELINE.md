@@ -15,11 +15,10 @@ Default resume: **Ops Automation PDF**.
 
 - **Person:** Bella Edwards (recruiting). Interviewer: **Ed**.
 - **Comp (listing):** ~$120k–$150k. LA metro.
-- **Status (2026-08-27):** Bella LinkedIn: invite to meet Ed coming. Email invite landed same day: schedule **"Ed x Miles | Data Lead Interview with Daybreak"** via Kula link.
-- **Action:** Book a slot on the email link first. Then send LinkedIn confirm (draft below). Optional short email after booking.
-- **Fit check on call:** confirm office cadence. Role is LA. Keep if remote US or SM/Westside **1–2 days**. Pass if 5x RTO.
-- **Send LinkedIn (after booking):**
-  > Thanks Bella. Just booked a time with Ed on the link you sent. Looking forward to it.
+- **Status (2026-08-27):** Booked **Fri 2026-08-28, 12:00pm PST** with Ed. LinkedIn confirm **sent**. Bella replied: excited, ask her anything.
+- **Next:** optional prep ask to Bella (draft below). On Ed call: confirm office cadence (keep if remote US or SM/Westside **1–2 days**; pass if 5x RTO).
+- **Send LinkedIn prep ask (optional):**
+  > Thanks! Anything Ed cares about most for this one, or anything I should prep beyond the JD?
 
 ### Iru — Operations Engineer (Miami hybrid)
 
