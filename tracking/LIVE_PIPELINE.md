@@ -15,10 +15,11 @@ Default resume: **Ops Automation PDF**.
 
 - **Person:** Bella Edwards (recruiting). Interviewer: **Ed**.
 - **Comp (listing):** ~$120k–$150k. LA metro.
-- **Status (2026-08-27):** Prior call with Bella already happened. Booked **Fri 2026-08-28, 12:00pm PST** with Ed. LinkedIn confirm **sent**. Bella replied: excited, ask her anything.
-- **Next:** optional prep ask to Bella (draft below). On Ed call: confirm office cadence (keep if remote US or SM/Westside **1–2 days**; pass if 5x RTO).
-- **Send LinkedIn prep ask (optional):**
-  > Thanks! Besides what we covered on our call, anything Ed cares about most for this one, or anything I should prep?
+- **Status (2026-08-27):** Prior Bella screen done. Booked **Fri 2026-08-28, 12:00pm PST** with Ed. LinkedIn confirm + prep ask **sent**.
+- **Interview format (from Bella):** optimization case with **live algebra in Excel**.
+- **On Ed call:** confirm office cadence (keep if remote US or SM/Westside **1–2 days**; pass if 5x RTO).
+- **Send LinkedIn (after Bella case tip):**
+  > Thanks, that's helpful. I'll prep for an Excel optimization case. Appreciate it.
 
 ### Iru — Operations Engineer (Miami hybrid)
 
