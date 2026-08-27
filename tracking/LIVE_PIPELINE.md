@@ -15,10 +15,10 @@ Default resume: **Ops Automation PDF**.
 
 - **Person:** Bella Edwards (recruiting). Interviewer: **Ed**.
 - **Comp (listing):** ~$120k–$150k. LA metro.
-- **Status (2026-08-27):** Booked **Fri 2026-08-28, 12:00pm PST** with Ed. LinkedIn confirm **sent**. Bella replied: excited, ask her anything.
+- **Status (2026-08-27):** Prior call with Bella already happened. Booked **Fri 2026-08-28, 12:00pm PST** with Ed. LinkedIn confirm **sent**. Bella replied: excited, ask her anything.
 - **Next:** optional prep ask to Bella (draft below). On Ed call: confirm office cadence (keep if remote US or SM/Westside **1–2 days**; pass if 5x RTO).
 - **Send LinkedIn prep ask (optional):**
-  > Thanks! Anything Ed cares about most for this one, or anything I should prep beyond the JD?
+  > Thanks! Besides what we covered on our call, anything Ed cares about most for this one, or anything I should prep?
 
 ### Iru — Operations Engineer (Miami hybrid)
 
