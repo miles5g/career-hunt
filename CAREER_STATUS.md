@@ -54,13 +54,13 @@ Closed / skip list (Planhat CSM, True Classic CoS, Charlie Health TM, Greenbox, 
 1. [ ] **Daybreak:** book Ed slot on Bella's Kula link, then send LinkedIn confirm (`tracking/LIVE_PIPELINE.md`).
 2. [ ] Confirm whether the Iru Taylor nudge went out 8/20. If not, send or rewrite (12 days post-call).
 3. [ ] Gursey: finish two automation recordings by **Aug 29**. Book the early-Sept ask.
-3. [ ] First Connect: one Casey bump if not sent 8/11, then stop.
-4. [ ] Riot / Sunny: check whether resume + HM loop happened before another ping.
-5. [ ] Danielle (Proven): one criteria DM. Do not apply her current board.
-6. [ ] UCSB alum: send Ops Automation PDF in the approved voice. Ping when a live role scores APPLY.
-7. [ ] LinkedIn Honors: STAR Employee of the Month, Jul 2026.
-8. [ ] `python scripts/job_hunt.py onboard` on the laptop if `context/USER_CONTEXT.md` is still missing.
-9. [ ] Laptop: `git pull` this repo so phone and desktop share pipeline files.
+4. [ ] First Connect: one Casey bump if not sent 8/11, then stop.
+5. [ ] Riot / Sunny: check whether resume + HM loop happened before another ping.
+6. [ ] Danielle (Proven): one criteria DM. Do not apply her current board.
+7. [ ] UCSB alum: send Ops Automation PDF in the approved voice. Ping when a live role scores APPLY.
+8. [ ] LinkedIn Honors: STAR Employee of the Month, Jul 2026.
+9. [ ] `python scripts/job_hunt.py onboard` on the laptop if `context/USER_CONTEXT.md` is still missing.
+10. [ ] Laptop: `git pull` this repo so phone and desktop share pipeline files.
 
 ---
 
